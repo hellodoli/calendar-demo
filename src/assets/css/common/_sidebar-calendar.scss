@@ -1,0 +1,664 @@
+@import "../common/variables";
+@import "../common/mixins";
+
+.calendar-sidebar {
+  @include flexcolumns;
+  box-sizing: content-box;
+  width: 270px;
+  height: 100%;
+  position: relative;
+  &.is-show-minicalendar {
+    .sidebar-details {
+      height: calc(100% - 255px);
+      flex: 1;
+    }
+    .monthly-calendar {
+      padding: 16px 16px 0;
+    }
+  }
+  .sidebar-details {
+    @include flexcolumns;
+    height: 100%;
+    position: relative;
+    overflow: auto;
+    .job-preview {
+      height: calc(100% - 16px);
+    }
+    .switch-maintab {
+      @include flexcolumns;
+      flex: 1;
+      height: 100%;
+      padding-top: 4px;
+    }
+    .count {
+      margin-left: 2px;
+      pointer-events: none;
+      min-width: auto;
+      font-size: 11px;
+      background-color: $orange-default;
+      color: $white;
+      &.--poll {
+        background: $blue-default;
+      }
+      &.--missed {
+        background: $red-default;
+      }
+    }
+    .header-action {
+      @include flexcenter;
+      width: 100%;
+      padding: 14px 16px 0;
+      position: relative;
+      &__content {
+        box-shadow: inset 0 -1px 0 $border-color-grey;
+      }
+      .tab-items {
+        @include size(auto);
+        @include flexinline;
+        justify-content: center;
+        background-color: $transparent;
+        padding: 0 0 6px;
+        border-radius: 0px;
+        color: $black-eerie;
+        font-weight: normal;
+        opacity: 0.8;
+        min-width: 30px;
+        svg {
+          pointer-events: none;
+          flex: 0 0 auto;
+        }
+        &:first-child {
+          .tooltiptext {
+            margin-left: 4px;
+          }
+        }
+        &__label {
+          margin: 0px 3px;
+          display: none;
+          white-space: nowrap;
+        }
+        &:hover {
+          opacity: 1;
+        }
+        &.active-tab-selector {
+          opacity: 1;
+          min-width: 75px;
+          box-shadow: inset 0px -2px 0px $purple-default;
+          .tab-items__label {
+            display: block;
+            color: $black-eerie;
+          }
+        }
+        & + .tab-items {
+          margin-left: 14px;
+        }
+      }
+    }
+    .tab-contents {
+      width: 100%;
+      height: calc(100% - 46px);
+      overflow-y: auto;
+      .tab-conts {
+        height: 100%;
+      }
+      .tab-header {
+        .tab-items {
+          width: 50%;
+          @include centeritem;
+          &:not(.active-tab-selector) {
+            background: rgba(28, 31, 34, 0.04);
+          }
+        }
+        .count {
+          margin-left: 4px;
+        }
+      }
+    }
+    .detail-tasks {
+      .tab-header {
+        padding: 12px 16px;
+      }
+      .contents {
+        border-top: 1px solid $border-color-grey;
+      }
+      .box-task {
+        &__logs {
+          .tag-label {
+            margin: 2px 0px 0px;
+          }
+        }
+        .log-txt {
+          margin-right: 2px;
+        }
+        .title__info {
+          width: calc(100% - 115px);
+          overflow: unset;
+          margin-left: 5px;
+          .tooltip {
+            width: fit-content;
+            max-width: 100%;
+            cursor: default;
+          }
+          .tooltiptext {
+            left: auto;
+            right: -5px;
+            max-width: 160px;
+          }
+        }
+      }
+    }
+    .detail-joblist {
+      > .scrolls {
+        padding: 12px 16px;
+      }
+      .details-jobslist {
+        .title {
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 25px;
+          text-transform: uppercase;
+          color: $date-color;
+          margin-top: 10px;
+        }
+        .jobslist {
+          margin-top: 6px;
+          border: solid 1px rgba(0, 0, 0, 0.1);
+        }
+      }
+      .search-jobs {
+        margin-top: 5px;
+        .search-input {
+          border-radius: 4px;
+          background: $white;
+        }
+        .svg-search-absolute {
+          z-index: auto;
+        }
+        input {
+          background: $transparent;
+          &:hover {
+            border: 1px solid $black-dark-jungle;
+            box-shadow: $boxshadow-grey-light;
+          }
+        }
+        .items .txt-ellipsis {
+          margin-top: 2px;
+        }
+      }
+    }
+    .select-list {
+      margin-top: 8px;
+      &.active {
+        z-index: 10;
+      }
+      .dropbtn {
+        background: $white;
+      }
+    }
+    .preloader {
+      background-color: $transparent !important;
+      padding-top: 15px;
+      &::after {
+        display: none;
+      }
+    }
+    .details-jobslist,
+    .contents {
+      .tooltip {
+        .tooltiptext {
+          @include transform(translateX(0px));
+          min-width: 50px;
+          text-transform: capitalize;
+        }
+      }
+    }
+    .details-jobslist {
+      .tooltiptext {
+        left: -18px;
+        max-width: 200px;
+      }
+    }
+    .contents {
+      .tooltiptext {
+        left: -16px;
+      }
+    }
+  }
+  .list-job-status {
+    .dropbtn {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+  .details-jobslist {
+    flex: 1;
+    position: relative;
+    margin-top: 5px;
+  }
+  .box-drop-file {
+    @include flexcolumns;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+    width: 100%;
+    left: 0px;
+    z-index: auto;
+    .description {
+      color: $blue-default;
+      max-width: 100%;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+  .monthly-calendar {
+    margin-bottom: -12px;
+    position: relative;
+    z-index: 1;
+    &__minimize {
+      background: rgba(28, 31, 34, 0.3);
+      border-radius: 0 0 4px 4px;
+      width: 55px;
+      height: 13px;
+      cursor: pointer;
+      margin: 0 auto;
+      position: relative;
+      opacity: 0.7;
+      &::after {
+        content: "";
+        width: 8px;
+        height: 4px;
+        border-top: solid 1px $white;
+        border-bottom: solid 1px $white;
+      }
+      &:hover {
+        opacity: 1;
+        &::after {
+          border-color: $purple-default;
+        }
+      }
+    }
+    .datepicker-header-custom {
+      height: auto !important;
+    }
+    .react-datepicker {
+      &__month-container {
+        padding: 0;
+      }
+      &__month {
+        border-bottom: solid 1px $black-extradark;
+      }
+      &__day {
+        height: 30px;
+        &--selected {
+          &:not(.react-datepicker__day--range-start) {
+            color: $grey-dark;
+            &:hover {
+              color: $grey-extradark;
+            }
+          }
+          &.react-datepicker__day--today:not(
+              .react-datepicker__day--range-start
+            ) {
+            color: $purple-default !important;
+            &:after {
+              background: $purple-default;
+            }
+          }
+        }
+        &--outside-month {
+          &.react-datepicker__day--today {
+            color: $purple-default;
+          }
+        }
+      }
+      &__day,
+      &__day-name {
+        margin: 0 0 1px;
+        width: 34px;
+      }
+      &__day-name {
+        color: rgba(28, 31, 34, 0.4);
+        font-size: 11px;
+        font-weight: 500;
+        height: 16px;
+        margin-top: 4px;
+      }
+    }
+  }
+}
+.sidebar-left-content {
+  width: 270px !important;
+  &:not(.modal__container) {
+    background-color: #f2f2f2;
+    position: absolute;
+    left: auto;
+    right: 0;
+  }
+  &:not(.job-preview) {
+    top: 0;
+    height: 100% !important;
+    max-height: 100% !important;
+  }
+  &.job-preview {
+    top: 16px;
+  }
+  .border-bottom-line {
+    border-bottom: 1px solid $black-extradark;
+  }
+}
+.sidebar-preview {
+  color: $black;
+  font-size: 13px;
+  line-height: 16px;
+  overflow-y: auto;
+  &__wrap {
+    background: inherit;
+    border-bottom: 1px solid $black-extradark;
+    padding: 0 16px 8px;
+    position: sticky;
+    top: 0;
+    z-index: 12;
+  }
+  .list-job-status {
+    width: calc(100% - 36px);
+    font-size: 14px;
+    margin: 16px 0 8px;
+  }
+  .select-emoji {
+    margin: 16px 0 8px;
+  }
+  .job-information {
+    &__label {
+      margin-top: 6px;
+    }
+  }
+  .wrap-information {
+    padding: 8px 16px 2px;
+    & + .wrap-note:not(.is-location),
+    & + .wrap-payment {
+      box-shadow: 0 -1px 0 $black-extradark;
+      margin-top: 8px;
+    }
+    &__label {
+      & + .wrap-information__label {
+        margin-top: 4px;
+      }
+    }
+    .btn-bg-purple {
+      height: auto;
+      min-height: 24px;
+      word-break: break-word;
+      text-align: left;
+      margin: 0 4px 2px 0;
+      .tooltiptext {
+        @include transform(none);
+        left: -1px;
+      }
+    }
+    .valid-phone {
+      margin: 4px 0 0 0 !important;
+      &__number {
+        font-size: 13px;
+      }
+      .phone-type {
+        color: $black;
+      }
+    }
+    .wrap-invoice {
+      padding-bottom: 8px;
+      column-gap: 5px;
+    }
+    .invoice-value {
+      max-width: 100px;
+      flex: 0 0 auto;
+      text-align: right;
+    }
+    .balance-info {
+      font-weight: 600;
+      margin: 8px 0;
+      .invoice-value {
+        max-width: 180px;
+      }
+    }
+  }
+  .address-location {
+    display: inline-block;
+    color: $purple-default;
+  }
+  .card-number {
+    width: 100%;
+    .number__digit {
+      width: auto !important;
+    }
+  }
+  .boxs-sms {
+    position: fixed;
+    z-index: 12;
+  }
+  .dropdown-listname {
+    width: fit-content;
+    max-width: 100%;
+    margin-top: 8px;
+    font-weight: 500;
+    .btn-listname {
+      padding: 2px 0 2px 4px;
+      &__label {
+        @include text-ellipsis;
+        margin-left: 4px;
+      }
+    }
+    .v2-dropdown__menu {
+      right: auto;
+      .primary,
+      .text-name {
+        font-size: inherit;
+      }
+    }
+  }
+  .v2-btn-default:not(.has-bg-grey):not(.btn-bg-purple):hover {
+    border-color: $black-dark-jungle !important;
+  }
+}
+.wrapper-events {
+  height: 100%;
+  background: inherit;
+  position: relative;
+  z-index: 9;
+  &:not(.sidebar-preview) {
+    .schedule-user .txt-ellipsis {
+      margin: 0 0 0 5px;
+    }
+    .wrapper-events__header {
+      padding: 8px 12px;
+    }
+  }
+  &.sidebar-preview {
+    .wrapper-events__header {
+      padding: 0 0 8px;
+      margin: 16px 16px 0;
+    }
+  }
+  &__header {
+    column-gap: 4px;
+  }
+  &__footer {
+    border-top: 1px solid $black-extradark;
+    padding: 8px;
+  }
+  .sidebar-content {
+    overflow-y: auto;
+  }
+  .wrap-rows {
+    padding: 10px 12px 10px 8px;
+    &__icons {
+      margin: 4px 6px 0 0;
+      width: 24px;
+    }
+    &__details {
+      width: calc(100% - 30px);
+    }
+  }
+  .switch {
+    margin: 6px 0 0 5px;
+    .allday {
+      white-space: nowrap;
+      display: inline-block;
+      text-indent: 40px;
+      margin-top: 3px;
+    }
+    .allday::after {
+      content: "All Day";
+    }
+    .toggle-round {
+      &:checked + label {
+        .allday {
+          &::after {
+            color: $purple-default;
+          }
+        }
+      }
+    }
+  }
+  .timerange-select {
+    margin: 12px 0 0 8px;
+  }
+  .field-control {
+    border-color: $transparent;
+    width: 100%;
+  }
+  textarea.field-control {
+    overflow: hidden;
+    margin-top: 1px;
+    min-height: 32px;
+    padding: 6px;
+    resize: none;
+  }
+  .assign-title {
+    line-height: 32px;
+    white-space: nowrap;
+  }
+  .dropdown-listname {
+    height: 24px;
+    margin-top: 4px;
+    .v2-dropdown__menu {
+      min-width: 200px;
+      width: fit-content;
+    }
+  }
+  .summary {
+    box-shadow: none !important;
+    height: auto;
+    min-height: 32px;
+    padding: 6px 4px 5px 6px !important;
+    text-align: left;
+  }
+  .preview-label {
+    margin-top: 4px;
+    word-break: break-word;
+  }
+  .is-dots {
+    @include size(16px);
+    border-radius: 50%;
+    margin: 4px 0 0 4px;
+  }
+  .color-picker {
+    &__close {
+      position: absolute;
+      right: 8px;
+      top: 4px;
+    }
+    .sketch-picker {
+      padding-top: 32px !important;
+    }
+  }
+}
+.wrapper-repeat-timeoff {
+  .modal__container {
+    @include transform(none);
+    margin-right: unset;
+    top: 165px;
+    right: 30px;
+    width: 560px;
+  }
+  .tabs-daily {
+    border: none;
+  }
+  .details-repeat-end {
+    .tabs-daily {
+      height: auto;
+      &.btn-item {
+        height: 32px;
+        border: solid 1px $grey-soft;
+      }
+    }
+    .monthly-calendar {
+      border: 1px solid $border-color-grey;
+      border-radius: 4px;
+      .react-datepicker__month {
+        border-bottom: none;
+      }
+    }
+    .monthly-calendar,
+    .field-every {
+      margin-left: 8px;
+    }
+  }
+  .row-has-line {
+    @include flexinline;
+    align-items: flex-start;
+    width: 100%;
+    padding-top: 20px;
+    .txt {
+      line-height: 32px;
+      margin-right: 10px;
+    }
+  }
+  .tab-panel {
+    .rows + .rows {
+      margin-top: 15px;
+    }
+  }
+}
+.wrapper-new-events {
+  .sidebar-left-content {
+    border-radius: 0;
+    top: 0;
+    right: -1px;
+    margin: 0;
+    margin-left: auto;
+    @include transform(none);
+  }
+}
+@media screen and (max-width: 840px) and (min-width: 767px) {
+  .sidebar-left-content,
+  .calendar-sidebar {
+    width: 245px !important;
+    max-width: 245px;
+  }
+  .calendar-sidebar {
+    .tab-items {
+      &__label {
+        font-size: 12px;
+        margin: 0px !important;
+      }
+    }
+  }
+  .sidebar-left-content {
+    z-index: 3;
+  }
+}
+.pac-container {
+  .pac-item {
+    position: relative;
+    padding: 6px 4px 6px 24px;
+    line-height: 16px;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .pac-icon {
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    margin: 0;
+  }
+}

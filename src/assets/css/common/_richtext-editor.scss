@@ -1,0 +1,382 @@
+// Richtext editor
+
+// This line added by React team - please don't remove
+.DraftEditor-root {
+  position: relative;
+  & [data-contents] {
+    overflow: auto;
+    padding-bottom: 5px;
+  }
+  .public-DraftEditorPlaceholder-root {
+    position: absolute;
+    pointer-events: none;
+    color: $grey-light-2;
+  }
+}
+// Lines above added by React team - please don't remove
+
+.wrap-content {
+  position: relative;
+  .wrapbox-editor {
+    border: 1px solid $grey-soft;
+    border-radius: 4px;
+    textarea {
+      width: 100%;
+      border: 0px;
+      padding: 0px;
+      resize: none;
+      line-height: 20px;
+    }
+    &.has-codeview {
+      .content-editable,
+      .public-DraftEditor-content {
+        background-color: $grey-extralight;
+      }
+      .public-DraftEditor-content {
+        display: none;
+      }
+      .wrapbox-editor__controls {
+        background: $white;
+        border-radius: 0 0 4px 4px;
+        .editor-controls {
+          &__btn {
+            &:not(.btn-viewcode) {
+              opacity: 0.7;
+              &:hover {
+                border-color: $transparent;
+              }
+              .tooltiptext {
+                display: none;
+              }
+            }
+            &:not(.btn-viewcode):not(.restore-default) {
+              pointer-events: none;
+            }
+            &.btn-viewcode {
+              svg path {
+                stroke: $yellow-default;
+              }
+            }
+          }
+        }
+      }
+      .editor-controls:not(.--action),
+      .restore-default,
+      .list-variable {
+        cursor: not-allowed;
+      }
+    }
+    &__form {
+      height: auto;
+      box-sizing: content-box;
+      position: relative;
+    }
+    &__controls {
+      position: relative;
+      width: 100%;
+      padding: 8px;
+      @include betweenitems;
+      box-shadow: inset 0px 1px 0px $border-color-grey;
+      .editor-controls {
+        @include flexcenter;
+        &__btn {
+          @include size(32px);
+          @include centeritem;
+          cursor: pointer;
+          border: solid 1px $transparent;
+          position: relative;
+          border-radius: 4px;
+          &:not(.loading):not(.active):hover {
+            border-color: $btn-hover-gray;
+          }
+          & + .editor-controls__btn {
+            margin-left: 6px;
+          }
+          &.active {
+            box-shadow: $boxshadow-btn-active;
+          }
+        }
+        &.--action {
+          flex: 1;
+          justify-content: flex-end;
+          .v2-btn-main {
+            margin-left: 8px;
+          }
+          .tooltip:last-child {
+            .tooltiptext {
+              right: -5px;
+              left: auto;
+              @include transform(none);
+            }
+          }
+        }
+        .insert-variable {
+          margin-right: 5px;
+        }
+        .break-line {
+          border-left: solid 1px $grey-softlight;
+          height: 16px;
+          margin: 0px 5px;
+        }
+      }
+      .list-variable {
+        .v2-dropdown__menu {
+          right: 0px;
+        }
+      }
+    }
+    .content-editable,
+    .public-DraftEditor-content {
+      line-height: 20px;
+      word-break: break-word;
+      max-width: 100%;
+      height: 200px;
+      padding: 8px 12px;
+      overflow: auto;
+      border-radius: 4px;
+      &.disable {
+        background: $grey-soft;
+        cursor: not-allowed;
+      }
+      &[contenteditable="true"]:empty:before {
+        content: attr(placeholder);
+        color: $btn-hover-black;
+        pointer-events: none;
+        display: block; /* For Firefox */
+      }
+    }
+    .select-emoji {
+      .v2-dropdown__menu {
+        width: inherit;
+        bottom: 100%;
+        margin-left: -5px;
+      }
+    }
+    .emoji-mart {
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      &-category-label span {
+        line-height: 22px;
+      }
+      &-search {
+        > input {
+          border: solid 1px $border-color-grey;
+          height: 32px;
+          padding: 0px 25px 0px 10px;
+        }
+        &-icon {
+          top: 4px;
+          right: 10px;
+        }
+      }
+      &-category-list {
+        padding: 0px !important;
+      }
+    }
+    .v2-dropdown__menu ul {
+      padding: 3px 2px !important;
+    }
+  }
+  &__notify {
+    font-size: 13px;
+    margin-top: 5px;
+    color: $red-default;
+    .is-link:hover {
+      text-decoration: underline;
+      text-underline-position: from-font;
+    }
+  }
+
+  a {
+    display: inline-block;
+    color: $purple-default;
+    &:hover {
+      text-decoration: underline;
+      color: $purple-default;
+    }
+  }
+  ol,
+  ul:not(.scrolls) {
+    padding-inline-start: 40px;
+  }
+  ul {
+    list-style: disc;
+  }
+  ol {
+    list-style: decimal;
+  }
+  .has-progress {
+    border-radius: 3px;
+    overflow: hidden;
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    bottom: 3px;
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 5px;
+    padding: 1px;
+    &__bar {
+      display: block;
+      height: 100%;
+      border-radius: 3px;
+      background-color: rgb(80, 95, 121);
+      @include animations(uploadingFiles 3s ease-in-out);
+      @include animation-mode(both);
+    }
+    @keyframes uploadingFiles {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+    @-webkit-keyframes uploadingFiles {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+    @-moz-keyframes uploadingFiles {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+  }
+  .is-uploading {
+    transition: display 5s ease;
+  }
+  .has-progress {
+    border-radius: 3px;
+    overflow: hidden;
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    bottom: 3px;
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 5px;
+    padding: 1px;
+    &__bar {
+      display: block;
+      height: 100%;
+      border-radius: 3px;
+      background-color: rgb(80, 95, 121);
+      @include animations(uploadingFiles 3s ease-in-out);
+    }
+    @keyframes uploadingFiles {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+    @-webkit-keyframes uploadingFiles {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+    @-moz-keyframes uploadingFiles {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+  }
+  .is-uploading {
+    transition: display 5s ease;
+  }
+}
+.pre-comment-field {
+  padding: 18px 12px;
+  color: $grey-generic;
+}
+// For per pages
+.dashboard-wrapper {
+  &.--main {
+    .boxs:not(.c-inbox-email) {
+      .wrapbox-editor {
+        border: none;
+        .public-DraftEditor-content,
+        .content-editable {
+          height: auto;
+          min-height: 100px;
+          max-height: 300px;
+        }
+      }
+    }
+  }
+  .box-drop-file {
+    z-index: 1;
+  }
+  @media screen and (max-width: 768px) {
+    .wrapbox-editor {
+      &__controls {
+        flex-wrap: wrap;
+      }
+      .editor-controls {
+        &.--action {
+          justify-content: flex-end;
+          width: 100%;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
+.modal {
+  &.--add-items {
+    .wrap-content {
+      .wrapbox-editor {
+        &__controls {
+          height: 44px;
+        }
+      }
+      .public-DraftEditor-content {
+        height: 140px;
+        padding: 6px 10px;
+      }
+    }
+  }
+}
+.form-tabpane-details {
+  .form-edit-template {
+    .boxs:not(.--terms-note) {
+      .wrapbox-editor__form {
+        padding: 8px 12px;
+      }
+    }
+  }
+}
+.modal-sendbroadcast {
+  .has-form {
+    .public-DraftEditor-content {
+      min-height: 40px;
+      height: auto;
+    }
+    .list-variable {
+      .v2-dropdown__menu {
+        bottom: auto;
+        top: calc(100% + 5px);
+      }
+    }
+  }
+}
+.c-inbox-email {
+  .tables {
+    .content-editable,
+    .public-DraftEditor-content {
+      height: 300px;
+    }
+  }
+}

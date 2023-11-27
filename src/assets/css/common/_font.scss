@@ -1,0 +1,98 @@
+// font inter
+@font-face {
+  font-family: "Inter";
+  // src: url('../../fonts/Inter-Regular.eot');
+  src: url(#{$cdnPathFonts}Inter-Regular.eot);
+  src: url(#{$cdnPathFonts}Inter-Regular.eot?#iefix) format("embedded-opentype"),
+    url(#{$cdnPathFonts}Inter-Regular.woff2) format("woff2"),
+    url(#{$cdnPathFonts}Inter-Regular.woff) format("woff"),
+    url(#{$cdnPathFonts}Inter-Regular.ttf) format("truetype"),
+    url(#{$cdnPathFonts}Inter-Regular.svg#Inter-Regular) format("svg");
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback; /* Define how the browser behaves during download */
+  -webkit-font-smoothing: antialiased !important;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url(#{$cdnPathFonts}Inter-Medium.eot);
+  src: url(#{$cdnPathFonts}Inter-Medium.eot?#iefix) format("embedded-opentype"),
+    url(#{$cdnPathFonts}Inter-Medium.woff2) format("woff2"),
+    url(#{$cdnPathFonts}Inter-Medium.woff) format("woff"),
+    url(#{$cdnPathFonts}Inter-Medium.ttf) format("truetype"),
+    url(#{$cdnPathFonts}Inter-Medium.svg#Inter-Medium) format("svg");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; /* Define how the browser behaves during download */
+  -webkit-font-smoothing: antialiased !important;
+}
+
+@font-face {
+  font-family: "Inter Bold";
+  src: url(#{$cdnPathFonts}Inter-SemiBold.eot);
+  src: url(#{$cdnPathFonts}Inter-SemiBold.eot?#iefix)
+      format("embedded-opentype"),
+    url(#{$cdnPathFonts}Inter-SemiBold.woff2) format("woff2"),
+    url(#{$cdnPathFonts}Inter-SemiBold.woff) format("woff"),
+    url(#{$cdnPathFonts}Inter-SemiBold.ttf) format("truetype"),
+    url(#{$cdnPathFonts}Inter-SemiBold.svg#Inter-SemiBold) format("svg");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; /* Define how the browser behaves during download */
+  -webkit-font-smoothing: antialiased !important;
+}
+@font-face {
+  font-family: "Inter Bold";
+  src: url(#{$cdnPathFonts}Inter-SemiBold.eot);
+  src: url(#{$cdnPathFonts}Inter-SemiBold.eot?#iefix)
+      format("embedded-opentype"),
+    url(#{$cdnPathFonts}Inter-SemiBold.woff2) format("woff2"),
+    url(#{$cdnPathFonts}Inter-SemiBold.woff) format("woff"),
+    url(#{$cdnPathFonts}Inter-SemiBold.ttf) format("truetype"),
+    url(#{$cdnPathFonts}Inter-SemiBold.svg#Inter-SemiBold) format("svg");
+  font-weight: bold;
+  font-style: normal;
+  font-display: fallback; /* Define how the browser behaves during download */
+  -webkit-font-smoothing: antialiased !important;
+}
+
+@for $i from 10 through 31 {
+  .fs-#{$i} {
+    font-size: 1px * $i !important;
+  }
+}
+
+.fw-500 {
+  font-weight: 500 !important;
+}
+
+.fw-normal {
+  font-weight: normal !important;
+  font-family: "Inter", sans-serif;
+}
+
+.fw-600,
+.fw-bold {
+  font-family: "Inter Bold", sans-serif;
+}
+.title {
+  &.--sm {
+    font-weight: 600;
+    @include font-color(20px, 14px, $grey-extradark);
+  }
+  &-h1 {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 600;
+  }
+  &-font15 {
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: bold;
+  }
+  &-x-sm {
+    text-transform: uppercase;
+    @include font-color(20px, 11px, $btn-hover-black);
+  }
+}

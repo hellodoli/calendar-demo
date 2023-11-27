@@ -1,0 +1,949 @@
+.header-v2 {
+  width: 100%;
+  height: 64px;
+  line-height: 1.43;
+  color: $black-2;
+  background: $white;
+  flex: 0 0 auto;
+  border-bottom: 1px solid #d9d9d9;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.06), 0px 0px 2px rgba(0, 0, 0, 0.04),
+    0px 0px 1px rgba(0, 0, 0, 0.08);
+  position: relative;
+  .btn-collapse {
+    position: absolute;
+    left: 52px;
+    z-index: 100005;
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    background-color: $white;
+    svg {
+      @include transform(rotateZ(-90deg));
+    }
+    .tooltiptext {
+      &:last-child {
+        display: none;
+      }
+    }
+  }
+  &-right {
+    justify-content: flex-end;
+    margin-left: 40px;
+    .v2-dropdown:not(.wrap-nav) {
+      &:not(.active) .arrow {
+        margin-top: -1px;
+      }
+      &.active .arrow {
+        margin-top: 2px;
+      }
+    }
+  }
+  .container {
+    @include size(100%);
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    &__header {
+      @include flexcenter;
+    }
+    .tooltip .bottom {
+      top: calc(100% + 4px);
+      z-index: 10003;
+    }
+  }
+  &-left {
+    flex: 1;
+    display: grid !important;
+    grid-template-columns: auto auto auto 1fr;
+  }
+  .collapse-sidebar {
+    height: 100%;
+    .btn-sidebar {
+      width: 64px;
+      height: 100%;
+      border-right: solid 1px $border-color-grey;
+      cursor: pointer;
+      background: $white;
+      @include centeritem;
+      .active {
+        display: none;
+      }
+    }
+  }
+  .v2-dropdown {
+    &.active,
+    &:hover {
+      .v2-dropdown__menu {
+        z-index: 1001;
+      }
+    }
+    .v2-dropdown__menu {
+      min-width: 200px;
+      width: max-content;
+      max-height: 80vh;
+    }
+  }
+  .logo {
+    flex: 0 0 auto;
+    margin: 0 0 0 16px;
+  }
+  .wrap-nav {
+    margin: 0 16px;
+    .dropbtn {
+      cursor: pointer;
+      font-weight: 500;
+      height: 40px;
+      padding: 4px 8px 4px 4px;
+      @include flexcenter;
+    }
+    .nav__label {
+      margin: 0 6px;
+      line-height: 20px;
+      @include text-ellipsis;
+    }
+  }
+  .nav-menu {
+    .dropbtn {
+      border-radius: 12px;
+    }
+    .v2-dropdown__menu {
+      top: calc(100% + 4px);
+      max-height: 590px;
+      box-shadow: $boxshadow-dropdown;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.5s linear;
+      .col-half {
+        .line {
+          margin: 4px 0 !important;
+        }
+      }
+      .nav-menu__item {
+        .items {
+          .default {
+            display: block;
+            svg {
+              rect:first-child,
+              path:first-child {
+                fill: $grey-light;
+              }
+            }
+          }
+          .active {
+            display: none;
+          }
+          &.active {
+            .default {
+              display: none;
+            }
+            .active {
+              display: block;
+            }
+          }
+          .txt-ellipsis {
+            font-weight: 500;
+          }
+          .btn-stick {
+            &.active {
+              display: block;
+            }
+            .tooltiptext.top {
+              top: unset;
+              bottom: calc(100% + 4px);
+              left: 50%;
+              @include transform(translateX(-50%));
+            }
+          }
+        }
+        .v2-dropdown__menu {
+          max-height: 320px;
+          overflow-x: hidden;
+          .nav-boxs {
+            max-height: 320px !important;
+          }
+          @media (max-height: 680px) {
+            max-height: 250px;
+          }
+        }
+      }
+      &::before {
+        content: "";
+        width: 100%;
+        position: absolute;
+        height: 5px;
+        margin-top: -5px;
+      }
+      .wrap-nav-list {
+        height: 100%;
+        display: flex;
+      }
+      .line {
+        margin: 12px 0px !important;
+        border-color: $grey-softlight;
+      }
+      .status-btn {
+        background-color: $orange-default;
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 20px;
+        height: 20px;
+        @include flexcenter;
+        &.--has-icon {
+          padding-left: 4px;
+          svg {
+            @include size(15px);
+            margin-right: 2px;
+          }
+        }
+        &.--beta {
+          background-color: $grey-middle;
+        }
+        &.--growth {
+          background-color: $green-default;
+        }
+      }
+      .nav-boxs {
+        @include flexcolumns;
+        box-shadow: inset -1px 0px 0px $grey-light;
+        max-height: 590px;
+        &__title {
+          flex: 0 0 auto;
+          height: 56px;
+          padding: 0px 16px;
+          @include betweenitems;
+          box-shadow: inset 0px -1px 0px $grey-light;
+        }
+        &.--list-addons {
+          width: 340px;
+          .nav-list {
+            padding: 18px 15px;
+          }
+          .inactive-addons {
+            .items:not(:hover) {
+              opacity: 0.5;
+            }
+          }
+          .active-settings {
+            .items {
+              &:not([class*="svg"]) {
+                > svg path {
+                  fill: $purple-light;
+                  &:last-child {
+                    fill: $purple-default;
+                  }
+                }
+              }
+              > svg {
+                @include size(32px);
+                background-color: $grey-extralight;
+                border-radius: 12px;
+                padding: 4px;
+              }
+            }
+            .svg-schedule.--purple {
+              svg path {
+                fill: $purple-light;
+                &:last-child {
+                  fill: $purple-default;
+                }
+              }
+            }
+          }
+          .active-addons,
+          .inactive-addons {
+            .items {
+              svg {
+                height: 24px;
+                @include transform(scale(1.1));
+              }
+            }
+          }
+        }
+        &.--list-menu {
+          width: 265px;
+          .nav-boxs__title {
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 23px;
+            color: $black;
+            &.--pro-plan {
+              justify-content: flex-start;
+              color: $orange-default;
+              background: #fff2ea;
+              box-shadow: inset 0px -1px 0px $border-color-grey;
+              svg {
+                margin-right: 10px;
+              }
+            }
+          }
+          .nav-list {
+            padding: 18px 22px;
+            > li + li {
+              margin-top: 8px;
+            }
+            .items {
+              .default {
+                svg {
+                  rect:first-child,
+                  path:first-child {
+                    fill: $grey-light;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .nav-tabs {
+        &__items {
+          height: 100%;
+          @include flexcenter;
+          white-space: nowrap;
+          & + .nav-tabs__items {
+            margin-left: 24px;
+          }
+        }
+      }
+      .bg-feauture {
+        width: 300px;
+        min-height: 590px;
+        background: url(#{$cdnPathImages}pro-banner.jpg) #efefef center / cover
+          no-repeat;
+
+        .title-h1 {
+          line-height: 32px;
+        }
+        .v2-btn-main {
+          position: absolute;
+          left: 20px;
+          bottom: 20px;
+          background-color: $orange-default;
+          font-weight: 500;
+        }
+        .close-tab {
+          border: 0;
+          padding: 0;
+          background: $transparent;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+        }
+        &.--promotion {
+          background: url(#{$cdnPathImages}voip-promotion.png) #efefef right
+            bottom no-repeat;
+          background-size: cover;
+          background-position: center;
+        }
+      }
+      .nav-list {
+        flex: 1;
+        overflow-y: auto;
+        .status-btn {
+          margin-left: 8px;
+        }
+        .items {
+          border-radius: 15px;
+          padding: 4px;
+          color: $grey-extrlight;
+          font-weight: 500;
+          > svg {
+            width: 32px;
+            margin-right: 8px;
+            flex: 0 0 auto;
+          }
+          &__svg {
+            @include size(32px);
+            background-color: $grey-extralight;
+            border-radius: 8px;
+            margin-right: 8px;
+            @include centeritem;
+          }
+        }
+        .tooltip {
+          .tooltiptext {
+            left: 30%;
+            @media (max-height: 870px) {
+              left: 5px;
+            }
+            @media (max-width: 1200px) {
+              left: -5px;
+            }
+          }
+        }
+      }
+      @media only screen and (max-height: 650px) {
+        &,
+        .nav-boxs {
+          max-height: calc(100dvh - 70px);
+        }
+        .bg-feauture {
+          min-height: calc(100dvh - 70px);
+        }
+      }
+    }
+    &.active {
+      .v2-dropdown__menu {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+        z-index: 9999;
+        .v2-dropdown {
+          &__menu {
+            display: none !important;
+          }
+          &.active {
+            .dropbtn {
+              background: $btn-press;
+              box-shadow: none !important;
+            }
+            .v2-dropdown__menu {
+              display: flex !important;
+              left: calc(100% + 14px);
+              top: 0;
+              box-shadow: $boxshadow-dropdown;
+            }
+          }
+        }
+      }
+    }
+    & + .questlog-menu {
+      margin-left: 5px;
+    }
+  }
+  .nav-user {
+    max-width: 180px;
+    .dropbtn {
+      border-radius: 55px;
+      max-width: 130px;
+    }
+    .avatar {
+      flex: 0 0 auto;
+      img {
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+    .v2-dropdown__menu {
+      width: 310px;
+    }
+  }
+  .nav-help {
+    .v2-dropdown__menu {
+      max-height: max-content;
+    }
+  }
+  .questlog-menu {
+    .dropbtn {
+      border-radius: 12px !important;
+      padding: 0 !important;
+    }
+    .v2-dropdown__menu {
+      width: 330px;
+      max-height: 400px;
+      top: 120%;
+      .items {
+        min-height: 32px;
+        justify-content: space-between;
+        padding: 0px 6px;
+        margin-top: 4px;
+        > .txt {
+          @include text-ellipsis;
+          display: inline-block;
+          width: calc(100% - 30px);
+        }
+        svg {
+          opacity: 0.32;
+        }
+        &:not(.disable):hover {
+          svg {
+            opacity: 1;
+            path {
+              stroke: $purple-default;
+            }
+          }
+        }
+        &.disable {
+          color: $black-7 !important;
+          cursor: default;
+        }
+        &:first-child {
+          .tooltiptext {
+            top: auto;
+            right: -15px;
+          }
+        }
+      }
+      .accordion {
+        padding: 0 10px 5px;
+        &-item {
+          cursor: pointer;
+          margin: 10px 5px 0;
+          .status-btn {
+            @include flexcenter;
+            border-radius: 9px;
+            margin-left: 4px;
+            padding: 0 6px 0 0px;
+            font-weight: 500;
+            svg {
+              margin-top: -2px;
+            }
+          }
+        }
+        &-panel {
+          display: none;
+          .items {
+            color: $black-3;
+            &.completed {
+              color: $date-color;
+              opacity: 1;
+              .txt {
+                text-decoration: line-through;
+              }
+            }
+          }
+          .check-items {
+            margin-right: 5px;
+            margin-top: -30px;
+            line-height: inherit;
+          }
+        }
+        .chevron {
+          @include size(24px);
+          @include centeritem;
+        }
+
+        &.active {
+          .chevron {
+            @include transform(rotateZ(180deg));
+            svg {
+              margin-top: -3px;
+            }
+          }
+        }
+        .range-percent {
+          color: $green-default;
+          font-weight: 500;
+          @include flexcenter;
+          &.is-zero {
+            color: $black-7;
+          }
+        }
+      }
+    }
+  }
+  .add-menu {
+    &:hover {
+      z-index: 1005;
+      .v2-dropdown__menu,
+      &::before {
+        display: block;
+      }
+    }
+    &::before {
+      content: "";
+      display: none;
+      position: absolute;
+      width: 200px;
+      left: 50%;
+      transform: translate(-50%);
+      background: transparent;
+      height: 10px;
+      top: 32px;
+      z-index: 1;
+    }
+    .v2-dropdown__menu {
+      top: calc(100% + 12px);
+      .arrow {
+        position: absolute;
+        top: -7px;
+        left: 50%;
+        background: $transparent;
+        z-index: -1;
+        @include transform(translateX(-50%));
+        .up {
+          border-width: 0 1px 1px 0;
+          display: inline-block;
+          padding: 5px;
+          transform: rotate(-135deg);
+          -webkit-transform: rotate(-135deg);
+          box-shadow: 2px 2px 5px -3px #0000004d;
+        }
+      }
+    }
+  }
+  .boxs-notification {
+    .notify-btn {
+      margin-right: 14px;
+      @include size(34px);
+    }
+  }
+  .nav-sms {
+    .notify-btn {
+      &:not(.has-notify) svg path {
+        fill: $grey-soft;
+      }
+    }
+  }
+  .search-form {
+    margin-right: 16px;
+    @media only screen and (max-width: 1231px) {
+      flex: 1;
+      .search-ip {
+        width: 100%;
+      }
+      .search-dropdown {
+        width: 250px;
+        left: 0;
+      }
+    }
+    @media only screen and (min-width: 1230px) {
+      &.active .search-ip,
+      .search-ip:focus {
+        width: 300px;
+        padding-right: 30px;
+      }
+      .search-ip {
+        width: 250px;
+        transition: width 0.1s ease-in-out;
+      }
+    }
+    .search-ip {
+      padding-right: 50px;
+      min-width: 140px;
+      &::placeholder {
+        color: rgba(28, 31, 34, 0.3);
+      }
+    }
+    .key {
+      background: $bg-body;
+      border-radius: 4px;
+      color: #1c1f2299;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 6px;
+      right: 4px;
+      top: 50%;
+      @include transform(translateY(-50%));
+    }
+  }
+  .switch-action {
+    margin-left: 4px;
+  }
+  .items-switch {
+    padding: 8px !important;
+    &__logo {
+      border-radius: 4px;
+      height: 42px;
+      width: 75px;
+      margin-right: 8px;
+      img {
+        object-fit: contain;
+      }
+    }
+    &.active {
+      .status-btn {
+        background: $white;
+      }
+    }
+    .status-btn {
+      background: $white-flash;
+      height: auto;
+      min-height: 20px;
+      padding: 2px 8px;
+      text-align: left;
+      margin-bottom: 2px;
+    }
+    .info-elm {
+      line-height: 16px;
+    }
+  }
+  .horizontal-menu {
+    min-width: 30%;
+    width: 100%;
+    transition: width 0.5s ease-in-out;
+    @media (max-width: 1200px) {
+      min-width: 34px;
+    }
+    &:empty {
+      min-width: 0;
+      margin-right: 0 !important;
+    }
+    .v2-btn-default {
+      .default,
+      .active {
+        display: none;
+      }
+      .default svg,
+      .active svg {
+        @include size(26px);
+      }
+      &.active,
+      &:hover {
+        color: $white !important;
+      }
+      &.active .arrow svg path,
+      &:hover .arrow svg path {
+        fill: $white !important;
+      }
+    }
+    .item-calendar {
+      &.active,
+      &:hover {
+        background-color: $blue-default !important;
+        border-color: $blue-default !important;
+      }
+    }
+    .item-customer {
+      &.active,
+      &:hover {
+        background-color: $green-medium-dark !important;
+        border-color: $green-medium-dark !important;
+      }
+    }
+    .item-inbox {
+      &.active,
+      &:hover {
+        background-color: $blue-navy !important;
+        border-color: $blue-navy !important;
+      }
+    }
+    .item-lead {
+      &.active,
+      &:hover {
+        background-color: $orange-dark !important;
+        border-color: $orange-dark !important;
+      }
+    }
+    .item-report {
+      &.active,
+      &:hover {
+        background-color: $green-pastel !important;
+        border-color: $green-pastel !important;
+      }
+    }
+    .item-review {
+      &.active,
+      &:hover {
+        background-color: $yellow-dark !important;
+        border-color: $yellow-dark !important;
+      }
+    }
+    .item-commission {
+      &.active,
+      &:hover {
+        background-color: $green-dark !important;
+        border-color: $green-dark !important;
+      }
+    }
+    .item-setting {
+      &.active,
+      &:hover {
+        background-color: $purple-dark !important;
+        border-color: $purple-dark !important;
+      }
+    }
+    .item-addons {
+      &.active,
+      &:hover {
+        background-color: $pink-dark !important;
+        border-color: $pink-dark !important;
+      }
+    }
+    .item-dashboard {
+      &.active,
+      &:hover {
+        background-color: $violet-light !important;
+        border-color: $violet-light !important;
+      }
+    }
+
+    .dropbtn {
+      height: 32px;
+      border-radius: 5px;
+      padding: 4px 8px 4px 4px;
+      @include flexcenter;
+      .default,
+      .active {
+        display: none;
+      }
+    }
+    .dropbtn.btn-ellipsis {
+      padding: 4px;
+      > svg:first-child {
+        display: block;
+      }
+    }
+    .nav-boxs {
+      &.--list-addons {
+        .nav-boxs__title {
+          padding: 0 30px !important;
+        }
+      }
+    }
+    .wrap-nav {
+      margin: 0;
+    }
+    > .nav-menu,
+    .questlog-menu {
+      height: 32px;
+    }
+  }
+
+  @media only screen and (max-width: 1070px) {
+    font-size: 13px;
+    .is-divider {
+      display: none;
+    }
+    .search-form,
+    .add-menu,
+    .nav-call-module,
+    .nav-inbox {
+      margin-right: 16px;
+    }
+    .notifi {
+      > .notify-btn {
+        @include size(30px);
+        border-radius: 12px;
+        margin-right: 10px;
+      }
+      .budget {
+        font-size: 10px;
+        line-height: 13px;
+        height: 13px;
+        margin-left: -3px;
+      }
+    }
+    .nav-menu {
+      .v2-dropdown__menu {
+        left: -60px;
+        .nav-boxs {
+          &__title {
+            padding: 0 5px !important;
+            font-size: 14px;
+          }
+          &.--list-menu {
+            width: 240px;
+          }
+          .nav-list {
+            padding: 22px 16px !important;
+          }
+        }
+        .nav-tabs__items + .nav-tabs__items {
+          margin-left: 0px;
+        }
+        .bg-feauture {
+          width: 270px;
+          .relative {
+            .fs-26 {
+              font-size: 24px;
+            }
+          }
+        }
+      }
+      .btn-ellipsis + .v2-dropdown__menu {
+        left: 0;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .horizontal-menu {
+      min-width: 100px;
+      .v2-btn-default {
+        .active {
+          display: none;
+        }
+        .default {
+          display: block;
+        }
+        &:hover,
+        &.active {
+          .active {
+            display: block;
+          }
+          .default {
+            display: none;
+          }
+        }
+      }
+      .is-nav-items {
+        display: none;
+      }
+    }
+    .search-form,
+    .add-menu,
+    .nav-call-module,
+    .nav-inbox {
+      margin-right: 10px;
+    }
+    .wrap-nav {
+      margin: 0 10px;
+    }
+  }
+
+  @media only screen and (max-height: 870px) {
+    .nav-menu {
+      &__item {
+        &:nth-of-type(5) ~ .nav-menu__item:nth-last-child(-n + 3) {
+          .v2-dropdown__menu {
+            bottom: 0;
+            top: unset !important;
+          }
+        }
+      }
+    }
+  }
+}
+// Style filter header
+.container-wrap {
+  &.container-customer-list,
+  &.container-report {
+    .header-items {
+      &.has-bg-blue:not(.list-menu) {
+        background-color: $transparent !important;
+        & > .dropbtn {
+          svg path {
+            stroke: $blue-default;
+          }
+          color: $blue-default !important;
+          border-color: rgba($color: $blue-default, $alpha: 0.5) !important;
+          background-color: rgba(
+            $color: $blue-default,
+            $alpha: 0.06
+          ) !important;
+          .budget {
+            background-color: $blue-default;
+            color: $white;
+            svg path {
+              stroke: $white;
+            }
+          }
+          .txt-ellipsis {
+            font-weight: 500;
+          }
+          &:hover {
+            color: $blue-default !important;
+            border-color: rgba($color: $blue-default, $alpha: 0.5) !important;
+          }
+        }
+        &.field-date,
+        .field-date {
+          border-color: rgba($color: $blue-default, $alpha: 0.5) !important;
+          background-color: rgba(
+            $color: $blue-default,
+            $alpha: 0.06
+          ) !important;
+          font-weight: 500;
+          &__select,
+          &__label {
+            color: $blue-default;
+          }
+          svg path {
+            stroke: $blue-default;
+          }
+        }
+        &.field-date {
+          color: $blue-default;
+        }
+      }
+    }
+  }
+}

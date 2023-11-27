@@ -1,0 +1,743 @@
+.wrapper-call {
+  background: $white;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.07),
+    0 2.1901px 9.12541px rgba(0, 0, 0, 0.0482987);
+  z-index: 100006;
+  &__container {
+    max-height: 255px;
+    height: calc(100% + 3px);
+    overflow-y: auto;
+    position: relative;
+    z-index: 2;
+    &:empty {
+      display: none;
+    }
+    @media (max-height: 1024px) {
+      max-height: 170px;
+    }
+  }
+  .btn-collapse {
+    position: absolute;
+    top: 100%;
+    left: 52px;
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    svg {
+      @include transform(rotateZ(-90deg));
+    }
+    .tooltiptext {
+      &:last-child {
+        display: none;
+      }
+    }
+  }
+  &.is-disable-calls {
+    .wrapper-call__container {
+      height: 0;
+    }
+    .btn-collapse {
+      svg {
+        @include transform(rotateZ(90deg));
+      }
+    }
+  }
+  .call-bar {
+    height: 82px;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-top: 3px;
+    &:first-child {
+      margin-top: 0;
+    }
+    &.is-invited {
+      background: #edf5ef;
+      height: auto;
+    }
+    &__status {
+      border-bottom: 3px solid $green-default;
+      &.is-end {
+        border-bottom: 3px solid $grey-medium;
+      }
+      &.is-calling {
+        border: none;
+        position: relative;
+        height: 3px;
+        overflow: hidden;
+        &::before,
+        &::after {
+          content: "";
+          bottom: 0;
+          height: 3px;
+          position: absolute;
+          display: block;
+        }
+        &::before {
+          background-color: $green-default;
+          width: 100%;
+        }
+        &::after {
+          animation: pendingBar 500ms linear infinite;
+          background-image: radial-gradient(
+            rgba(255, 255, 255, 0.65) 0%,
+            rgba(255, 255, 255, 0.15) 100%
+          );
+          background-size: 28px 100%;
+          left: 0;
+          right: -28px;
+        }
+      }
+    }
+    &__btn {
+      box-shadow: inset -1px 0 0px $grey-verylight-brown;
+      color: $green-default;
+      justify-content: center;
+      height: 100%;
+      width: 64px;
+      &.is-grey {
+        color: $grey-generic;
+        svg path {
+          stroke: $grey-generic;
+        }
+      }
+      &.is-blue {
+        color: $blue-denim;
+        svg path {
+          stroke: $blue-denim;
+        }
+      }
+      &.is-red {
+        color: $red-default;
+        svg path {
+          stroke: $red-default;
+        }
+      }
+    }
+    &__info {
+      padding-left: 20px;
+      width: calc(100% - 500px);
+      .status-btn {
+        padding: 0 8px;
+        text-transform: unset;
+      }
+      .txt-ellipsis {
+        max-width: 150px;
+      }
+      .valid-phone {
+        width: calc(100% - 150px);
+        &__btn {
+          max-width: calc(100% - 200px);
+        }
+      }
+    }
+    &__controll {
+      .is-divider {
+        margin: 0 8px;
+      }
+      .avt-has-micro {
+        margin-right: 10px;
+        &__icon {
+          cursor: pointer;
+        }
+      }
+      .microphone-muted {
+        > svg > * {
+          stroke: $purple-default;
+        }
+      }
+      .v2-btn-default {
+        .tooltiptext {
+          top: calc(100% + 4px);
+        }
+      }
+      .tabs {
+        .btn-item {
+          width: 280px;
+        }
+        .tab-items {
+          line-height: 28px;
+          padding-left: 8px;
+          flex: 1;
+          &:not(.tab-items:nth-child(2)) {
+            &:hover,
+            &:active {
+              svg {
+                path,
+                rect {
+                  stroke: $black;
+                }
+              }
+            }
+            &.active-tab-selector {
+              svg {
+                path,
+                rect {
+                  stroke: $white;
+                }
+              }
+            }
+          }
+          &:nth-child(2) {
+            &:hover,
+            &:active {
+              svg path {
+                fill: $black;
+              }
+            }
+            &.active-tab-selector {
+              svg path {
+                fill: $white;
+              }
+            }
+          }
+        }
+      }
+      .v2-dropdown {
+        .more-user {
+          @include size(36px);
+          border-radius: 50%;
+          background-color: $background-grey;
+          @include centeritem;
+          &:hover {
+            border-color: $transparent;
+          }
+          & + .v2-dropdown__menu {
+            width: 250px;
+            .txt-ellipsis {
+              white-space: nowrap;
+            }
+          }
+        }
+      }
+    }
+    &__action {
+      column-gap: 16px;
+      max-width: 50%;
+      .schedule-user {
+        width: calc(100% - 110px);
+      }
+    }
+    &__invited {
+      padding: 8px 0 8px 14px;
+      .dots::before {
+        margin-right: 14px;
+      }
+    }
+    &:has(.tags) {
+      .call-bar__info {
+        .valid-phone__btn {
+          max-width: 150px;
+        }
+        @media (max-width: 1200px) {
+          .txt-ellipsis {
+            max-width: 120px;
+          }
+          .valid-phone__btn {
+            max-width: 80px;
+          }
+          .is-link {
+            max-width: 300px;
+            @include text-ellipsis;
+          }
+        }
+      }
+    }
+    &.--smart-views {
+      .call-bar__status {
+        &.is-calling {
+          &::before {
+            background-color: $blue-denim;
+          }
+        }
+        &.is-failed {
+          border-bottom-color: $red-default;
+        }
+        &:not(.is-end):not(.is-failed) {
+          border-bottom-color: $blue-denim;
+        }
+      }
+      .call-bar__btn {
+        &.is-pause {
+          svg {
+            @include transform(rotate(135deg));
+            @include size(26px);
+          }
+        }
+      }
+      .action-call {
+        &.tooltip {
+          .tooltiptext.bottom {
+            bottom: initial;
+            top: calc(100% + 2px);
+          }
+        }
+      }
+    }
+  }
+  .avt-has-micro {
+    @include size(36px);
+    border: 1px solid #1eaa5c;
+    border-radius: 50%;
+    padding: 1px;
+    &.is-muted {
+      border: 1px solid #babbbc;
+    }
+    &.is-whisper {
+      border-color: $blue-default;
+    }
+    &__icon {
+      bottom: -5px;
+      right: -5px;
+    }
+    .avt-img {
+      border-radius: 50%;
+    }
+  }
+  .dots::before {
+    background-color: $grey-silver;
+    margin-top: 5px;
+  }
+  .action-call,
+  .btn-next-call {
+    border-radius: 16px;
+    color: $white;
+    cursor: pointer;
+    height: 32px;
+    &.is-icon {
+      @include size(32px);
+    }
+    &.has-label {
+      gap: 4px;
+      &:not(.--icon-r) {
+        padding: 4px 12px 4px 4px;
+      }
+      &.--icon-r {
+        padding: 4px 6px 4px 8px;
+      }
+    }
+  }
+  .action-call {
+    &.btn-back {
+      background-color: $blue-default;
+      color: $white !important;
+      border-color: $blue-default !important;
+      svg path {
+        fill: $white;
+      }
+    }
+  }
+  .btn-next-call {
+    @include flexinline;
+    overflow: hidden;
+    position: relative;
+    background-color: $blue-denim;
+    z-index: 0;
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      background-color: $light-blue;
+    }
+    &.is-processing::after {
+      width: 100%;
+    }
+    @for $i from 1 through 10 {
+      &.second-#{$i}::after {
+        transition: width 1s * $i linear;
+      }
+    }
+  }
+  .v2-dropdown__menu {
+    z-index: 3;
+  }
+  .tech-name {
+    &__label {
+      @include text-ellipsis;
+      margin: 0 6px 0 4px;
+    }
+  }
+  .wrap-invite {
+    .btn-invite {
+      border-radius: 16px;
+    }
+    .v2-dropdown__menu {
+      width: 300px;
+    }
+    .rows-phone {
+      column-gap: 16px;
+      padding: 4px 12px;
+      svg {
+        @include size(16px);
+        path {
+          fill: $grey-very-dark;
+        }
+      }
+    }
+    .schedule-user {
+      width: calc(100% - 80px);
+    }
+    .status-dot {
+      @include size(16px);
+      border-radius: 16px;
+    }
+  }
+  .wrap-dialpad-main {
+    width: 250px;
+  }
+  .wrap-dialpad {
+    padding: 16px;
+    gap: 2px;
+    &__item {
+      @include flexcolumns;
+      align-items: center;
+      justify-content: flex-start;
+      background: $white-dark;
+      border: 1px solid $grey-platinum;
+      border-radius: 2px;
+      cursor: pointer;
+      flex: 1;
+      height: 56px;
+      min-width: 70px;
+      padding: 6px;
+      &:hover {
+        background: $white-flash;
+      }
+    }
+  }
+  .gap-md {
+    column-gap: 8px;
+  }
+  .gap-none {
+    column-gap: 0;
+  }
+  .action-label {
+    min-width: 60px;
+  }
+}
+.nav-call-module {
+  > .dropbtn {
+    border-radius: 67px;
+    padding: 0 6px 0 4px;
+  }
+  > .v2-dropdown__menu {
+    width: 350px !important;
+  }
+  .wrap-call-module {
+    &__content {
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: calc(80vh - 128px);
+    }
+    &__footer {
+      column-gap: 8px;
+    }
+  }
+  .recording-policy {
+    padding: 8px;
+    background-color: $blue-extralight;
+    &-button {
+      @include flexend;
+      margin-top: 8px;
+    }
+  }
+  .phone-fied {
+    &__icon {
+      left: 4px;
+      top: 4px;
+    }
+  }
+  .select-caller {
+    border: 1px solid $grey-verylight;
+    border-radius: 4px;
+    .v2-dropdown {
+      width: calc(100% - 56px);
+      &.active .dropbtn {
+        box-shadow: none !important;
+      }
+      .dropbtn {
+        height: 56px;
+        @include betweenitems;
+        padding: 0 8px;
+      }
+      &__menu {
+        width: calc(100% + 56px);
+        max-height: 240px;
+        .items {
+          .txt-phone {
+            @include text-ellipsis;
+          }
+          .txt-name {
+            width: 20%;
+          }
+          &:not(.has-name) {
+            .txt-phone {
+              flex: 1;
+            }
+          }
+          &.has-name {
+            .txt-phone {
+              max-width: 80%;
+            }
+          }
+        }
+      }
+    }
+    .tooltiptext.top {
+      transform: none;
+      left: unset;
+      right: 0;
+    }
+    .caller-phone {
+      width: calc(100% - 22px);
+    }
+    &__copy {
+      @include size(56px);
+      background: $white-cultured;
+      border-left: 1px solid $grey-verylight;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+  .setting-device {
+    &__rows {
+      column-gap: 8px;
+      margin-top: 12px;
+    }
+    .v2-dropdown {
+      max-width: calc(100% - 144px);
+      &__menu {
+        width: 214px;
+        max-height: 23vh;
+      }
+      ul {
+        padding: 0;
+        li {
+          margin: 2px 2px 0;
+          &:first-child {
+            margin-top: 3px;
+          }
+          &:last-child {
+            margin-bottom: 3px;
+          }
+        }
+      }
+    }
+    .device-label {
+      width: 96px;
+    }
+  }
+  .microphone-level-indicator {
+    column-gap: 2px;
+    margin: 4px 0 0 104px;
+    max-width: 175px;
+    .level-indicator-step {
+      background: #d9d9d9;
+      border-radius: 36px;
+      height: 3px;
+      @include transitions(
+        background-color 300ms cubic-bezier(0.19, 1, 0.22, 1)
+      );
+      &.is-on-volume {
+        &:nth-child(n + 1):nth-child(-n + 7) {
+          background-color: $green-default;
+        }
+        &:nth-child(n + 8):nth-child(-n + 10) {
+          background-color: $orange-default;
+        }
+        &:nth-child(n + 11):nth-child(-n + 14) {
+          background-color: $red-default;
+        }
+      }
+    }
+  }
+  .gap-module {
+    padding: 16px;
+  }
+  .line-bottom-grey {
+    box-shadow: inset 0 -1px 0 $grey-verylight-brown;
+  }
+}
+.connection-bar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  &.is-slow {
+    background: #fff3ee;
+    color: $orange-red;
+  }
+  &.is-off {
+    background: #fef0f0;
+    color: $red-default;
+  }
+}
+@keyframes pendingBar {
+  0% {
+    transform: translate(-28px, 0);
+  }
+  100% {
+    transform: none;
+  }
+}
+// Calls log
+.boxs-calls {
+  .wrap-call-summary {
+    padding: 0 16px;
+    gap: 16px;
+    &.is-toggle {
+      .call-record svg {
+        @include transform(rotateZ(180deg));
+      }
+    }
+    &:not(.is-toggle) {
+      .audio-player {
+        display: none;
+      }
+    }
+    .call-notes-form {
+      border: 1px solid $border-color-grey;
+      border-radius: 4px;
+    }
+    .call-notes-label {
+      white-space: pre-wrap;
+    }
+    .call-notes-form,
+    .call-notes-label {
+      margin-bottom: 16px;
+    }
+    .call-notes-label:empty {
+      margin-bottom: 0;
+    }
+    &.has-recording {
+      .call-summary {
+        width: calc(100% - 120px);
+        &__name {
+          max-width: 26%;
+        }
+      }
+    }
+  }
+  .call-summary {
+    word-break: break-word;
+    &__duration {
+      color: $btn-hover-black;
+      &::before {
+        @include size(3px);
+        margin: 0 10px 0 6px;
+      }
+    }
+    &__name {
+      @include text-ellipsis;
+      max-width: 40%;
+    }
+    .v2-btn-default {
+      &.--circle {
+        border-radius: 50%;
+      }
+    }
+  }
+  .call-record {
+    border-radius: 16px;
+    font-weight: normal;
+    opacity: 0.8;
+    padding: 0 6px 0 10px;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .avt-img {
+    margin-right: 8px !important;
+  }
+  .wrap-notes-edit {
+    &:not(.has-editing) .call-notes-form,
+    &.has-editing .call-notes-label {
+      display: none;
+    }
+  }
+  &.--logs {
+    .header {
+      height: 48px;
+      padding: 8px;
+      border-bottom: 1px solid $grey-verylight-brown;
+      > .field-input {
+        width: 100px;
+      }
+    }
+    .wrap-log-call {
+      width: 68%;
+      min-width: 390px;
+      .v2-dropdown__menu {
+        width: 100%;
+        padding: 3px 2px;
+      }
+      .dropbtn__label {
+        overflow: hidden;
+        > .txt-ellipsis {
+          max-width: calc(55% - 20px);
+          font-size: 13px;
+          &:empty + .valid-phone {
+            min-width: calc(100% - 20px);
+            .valid-phone__number {
+              max-width: 75%;
+            }
+          }
+        }
+        > .valid-phone {
+          width: 45%;
+          flex: 1;
+          .valid-phone__number {
+            max-width: 75%;
+          }
+        }
+      }
+      .log-call-items {
+        > .txt-ellipsis {
+          max-width: 45%;
+        }
+        .wrap-phone {
+          max-width: calc(55% - 6px);
+        }
+      }
+    }
+    .call-notes-form {
+      .wrap-log-call {
+        width: 62%;
+      }
+    }
+  }
+  .wrap-call-history {
+    padding: 8px 12px;
+    border-top: 1px solid $border-color-grey;
+    .call-history {
+      margin-top: 8px;
+      &-item {
+        .name {
+          max-width: calc(100% - 150px);
+        }
+      }
+      .dots::before {
+        background-color: $grey-generic;
+      }
+    }
+    &.is-open {
+      .arrow svg {
+        @include transform(rotateZ(180deg));
+      }
+    }
+    &:not(.is-open) {
+      .call-history {
+        display: none;
+      }
+    }
+  }
+}
+// Custom audio tag
+.audio-player {
+  audio {
+    &::-webkit-media-controls-enclosure {
+      background: rgba(28, 31, 34, 0.06);
+    }
+  }
+}

@@ -1,0 +1,139 @@
+// display
+.d-flex {
+  display: flex !important;
+}
+.d-inlineflex {
+  display: inline-flex !important;
+}
+.justify-space-between {
+  justify-content: space-between !important;
+}
+.justify-center {
+  justify-content: center !important;
+}
+.justify-start {
+  justify-content: flex-start !important;
+}
+.justify-end {
+  justify-content: flex-end !important;
+}
+.align-center {
+  align-items: center !important;
+}
+.align-top {
+  align-items: flex-start !important;
+}
+.align-end {
+  align-items: flex-end !important;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-column-reverse {
+  flex-flow: column-reverse !important;
+}
+.flex-centeritem {
+  @include centeritem;
+}
+.flex-betweenitems {
+  @include betweenitems;
+}
+.flex-betweentop {
+  @include betweentop;
+}
+.flexcenter {
+  @include flexcenter;
+}
+.flexinline-center {
+  @include flexinline;
+}
+.flextop {
+  @include flextop;
+}
+.relative {
+  position: relative !important;
+}
+.absolute {
+  position: absolute !important;
+}
+.fixed {
+  position: fixed !important;
+}
+.position-static {
+  position: static !important;
+}
+.dp-hide {
+  display: none !important;
+}
+.dp-block {
+  display: block !important;
+}
+.dp-inline-block {
+  display: inline-block !important;
+}
+.visibility-hide {
+  visibility: hidden !important;
+}
+.visibility-show {
+  visibility: visible !important;
+}
+.flex-1 {
+  flex: 1 !important;
+}
+.flex-auto {
+  flex: 0 0 auto !important;
+}
+.flex-none {
+  flex: none !important;
+}
+.flex-grow-0 {
+  flex-grow: 0 !important;
+}
+/* text align */
+.text {
+  &-center {
+    text-align: center !important;
+  }
+
+  &-left {
+    text-align: left !important;
+  }
+
+  &-right {
+    text-align: right !important;
+  }
+}
+
+.nowrap {
+  white-space: nowrap !important;
+}
+.wrap-normal {
+  white-space: normal !important;
+}
+.white-space-pre {
+  white-space: pre-wrap !important;
+}
+.word-break {
+  word-break: break-word !important;
+}
+.word-breakall {
+  word-break: break-all !important;
+}
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+.text-lowercase {
+  text-transform: lowercase !important;
+}
+.overflow-hidden {
+  overflow: hidden !important;
+}
+.sizing-content {
+  box-sizing: content-box !important;
+}
+.disable-anchor {
+  overflow-anchor: none !important;
+}

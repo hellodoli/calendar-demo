@@ -1,0 +1,217 @@
+@import "../common/variables";
+@import "../common/mixins";
+
+.edit-document-form {
+  .document-field {
+    @include font-color(20px, 14px, $grey-dark);
+    position: relative;
+    & + .document-field {
+      margin-top: 18px;
+    }
+    &.--section + .--listbox {
+      margin-top: 5px;
+    }
+    &__title-section {
+      font-size: 14px;
+      font-weight: 600;
+      color: $grey-extradark;
+
+      & + .document-field__desc-section {
+        margin-top: 5px;
+      }
+    }
+    &__label {
+      margin-bottom: 3px;
+    }
+    &__typing {
+      width: 100%;
+      background: $yellow-extralight;
+      border: 1px solid $grey-soft;
+      border-radius: 4px;
+      @include placeholder {
+        color: $grey-soft;
+        font-weight: normal;
+      }
+      &.has-value,
+      &:not(.loading):focus {
+        background-color: $white;
+      }
+      &:not(.loading):hover {
+        border-color: $grey-middle;
+      }
+    }
+    &__character {
+      margin-top: 3px;
+      @include font-color(16px, 12px, $btn-hover-black);
+      @include flexcenter;
+      .count-binding {
+        color: $orange-default;
+        margin-left: 5px;
+      }
+    }
+    &__signature {
+      width: 60%;
+    }
+    &.--input {
+      .document-field__typing {
+        height: 32px;
+        line-height: 32px;
+        padding: 0px 6px;
+      }
+    }
+    &.--textarea {
+      .document-field__typing {
+        height: 120px;
+        padding: 6px;
+        line-height: 22px;
+        resize: none;
+      }
+    }
+    &.--checkbox {
+      .check-items + .check-items,
+      .check-radio + .check-radio {
+        margin-top: 8px;
+      }
+      .item-checkbox-label,
+      .check-radio-label {
+        word-break: break-word;
+      }
+      .item-checkbox {
+        height: auto;
+      }
+    }
+    &.--upload-file {
+      &.is-uploaded {
+        .upload-has-file {
+          display: block;
+        }
+        .upload-action__label {
+          display: none;
+        }
+      }
+      .document-field__label {
+        margin-bottom: 8px;
+      }
+      .upload-action {
+        @include flexcenter;
+        &__label {
+          font-size: 13px;
+          color: $btn-hover-black;
+          margin-left: 4px;
+        }
+      }
+      .upload-has-file {
+        margin-top: 8px;
+        display: none;
+        img {
+          object-fit: contain;
+          max-width: 100%;
+          max-height: 350px;
+          width: auto;
+          height: auto;
+          margin: 10px 0px 30px;
+        }
+        &__label {
+          margin-top: 8px;
+          @include flexcenter;
+        }
+        .file-name {
+          @include text-ellipsis;
+          & + .v2-btn-default {
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+    &.--signature {
+      &.is-signed {
+        .signature-image {
+          background: $white;
+        }
+        .signature-add {
+          display: none;
+        }
+      }
+      .document-field__label {
+        margin-bottom: 6px;
+      }
+      .signature-image {
+        height: 120px;
+        background: $yellow-extralight;
+        box-shadow: 0px 1px 0px #b4b4b4;
+        @include centeritem;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+      }
+      .signature-add {
+        margin-top: 8px;
+        display: block;
+      }
+    }
+    &.--listbox {
+      .group-tags {
+        cursor: pointer;
+      }
+      .box-tags {
+        height: 100%;
+      }
+      .select-input-tag {
+        width: 100%;
+        max-width: 100%;
+        padding: 0px;
+        &[disabled] {
+          background-color: $transparent;
+          cursor: pointer;
+        }
+      }
+      .check-items {
+        width: 100%;
+        label {
+          &::before {
+            top: 2px;
+          }
+          &::after {
+            top: 6px !important;
+          }
+        }
+        .txt-ellipsis {
+          width: 100%;
+          display: inline-block;
+        }
+      }
+      .v2-dropdown__menu {
+        padding: 1px;
+      }
+    }
+    &.--btn {
+      text-align: center;
+      .v2-btn-main {
+        padding: 0px 35px;
+      }
+    }
+  }
+}
+// Popup add signature
+.docs-add-signature {
+  .modal__container {
+    width: 680px;
+  }
+  .body-modal {
+    height: 300px;
+    position: relative;
+    border-bottom: solid 1px $border-color-grey;
+    .v2-btn-default {
+      position: absolute;
+      width: auto;
+      left: 20px;
+      top: 12px;
+    }
+    .boxs-canvas {
+      width: 100%;
+      height: calc(100% - 10px);
+      margin-top: 25px;
+    }
+  }
+}

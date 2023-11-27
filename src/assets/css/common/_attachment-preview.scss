@@ -1,0 +1,323 @@
+@import "../common/variables";
+@import "../common/mixins";
+
+.gd-preview-attach {
+  position: absolute;
+  max-height: 100%;
+  max-width: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  @include transform(translate(-50%, -50%));
+  background-color: $transparent;
+  border: 0px;
+  @include centeritem;
+
+  &.has-details {
+    justify-content: space-between;
+    .content-viewattachment {
+      max-width: calc(100% - 230px);
+    }
+    .slick-next {
+      right: 58px;
+    }
+    .slick-prev {
+      left: 58px;
+    }
+    .slick-list {
+      max-width: calc(100% - 80px);
+      max-height: calc(100% - 113px);
+    }
+    .detail-menu {
+      display: block;
+    }
+    .btn-close-menu {
+      background: $transparent;
+      opacity: 1;
+      svg path {
+        stroke: $grey-dark;
+      }
+      &:hover {
+        border: 1px solid $btn-hover-gray;
+      }
+    }
+    .thumbnail {
+      max-width: calc(100% - 80px);
+      margin: 0 0 0 40px;
+    }
+  }
+  .btn-close-menu {
+    position: fixed;
+    right: 16px;
+    top: -40px;
+    cursor: pointer;
+    svg path {
+      stroke: $white;
+    }
+  }
+  .attach-btn {
+    background: #000000b3;
+    @include centeritem;
+    @include size(32px);
+    opacity: 0.8;
+    border-radius: 4px;
+    &:hover {
+      opacity: 1;
+    }
+    svg path {
+      fill: $white;
+    }
+  }
+  .slick-arrow {
+    width: 32px;
+    height: 32px;
+    z-index: 1;
+    margin-top: -75px;
+  }
+  .slick-next {
+    right: 115px;
+  }
+  .slick-prev {
+    left: 115px;
+  }
+  .slick-next:before,
+  .slick-prev:before {
+    display: none;
+  }
+  .content-viewattachment {
+    @include flexcolumns;
+    justify-content: space-between;
+    max-width: 100%;
+    height: calc(100vh - 110px);
+    &.is-separate {
+      width: 100%;
+      align-items: center;
+      .attachment {
+        max-width: calc(100% - 180px);
+      }
+    }
+    @media only screen and (max-width: 820px) {
+      &.is-separate .attachment {
+        max-width: calc(100% - 80px);
+      }
+    }
+  }
+  .detail-menu {
+    display: none;
+    width: 230px;
+    height: 100vh;
+    position: fixed;
+    right: 0px;
+    background-color: $white;
+    padding: 16px;
+    &__label {
+      padding-right: 40px;
+      word-break: break-word;
+    }
+    .name {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .info {
+      font-size: 12px;
+      line-height: 16px;
+      color: $btn-hover-black;
+      margin-top: 4px;
+      margin-bottom: 14px;
+    }
+    .v2-btn-default {
+      &:not(.btn-close-menu) {
+        width: 100%;
+        max-width: 100%;
+        font-weight: normal;
+        svg {
+          margin-right: 4px;
+        }
+      }
+      & + .v2-btn-default {
+        margin-top: 8px;
+      }
+      svg {
+        path {
+          stroke: $grey-dark;
+        }
+      }
+    }
+  }
+  .slick-slide {
+    height: 100%;
+    &,
+    &.slick-cloned,
+    &.slick-current {
+      > div {
+        height: 100%;
+        @include centeritem;
+      }
+    }
+  }
+  .slick-track {
+    height: 100%;
+  }
+  .slick-list {
+    width: 100%;
+    height: 100%;
+    max-height: calc(100% - 110px);
+    max-width: calc(100% - 180px);
+    margin: 0 auto;
+    margin-bottom: 18px;
+  }
+  .attachment {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 400px;
+    @include size(100%);
+    // max-width: calc(100% - 300px);
+    transition: all 0.5s;
+
+    iframe,
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      transition: all 0.5s;
+    }
+    iframe {
+      @include size(100%);
+    }
+  }
+  .thumbnail {
+    overflow-x: auto;
+    width: 100%;
+    display: flex !important;
+    padding: 0px 0px 3px 0px;
+    max-width: calc(100% - 180px);
+    margin: 0 0 0 90px;
+    flex: 0 0 auto;
+    li {
+      @include size(88px);
+      @include centeritem;
+      position: relative;
+      flex: 0 0 auto;
+      .thumb-item {
+        @include centeritem;
+        @include size(80px);
+        border-radius: 4px;
+        overflow: hidden;
+        cursor: pointer;
+        background: $white;
+        &::after {
+          content: "";
+          @include size(100%);
+          position: absolute;
+          z-index: 1;
+          border-radius: 4px;
+          border: solid 4px $white;
+          visibility: hidden;
+          background: $white;
+        }
+        &:hover::after {
+          visibility: visible;
+        }
+      }
+      & + li {
+        margin-left: 4px;
+      }
+      &:hover,
+      &.slick-active {
+        .thumb-item::after {
+          visibility: visible;
+        }
+      }
+      svg,
+      img {
+        z-index: 2;
+        position: relative;
+      }
+      svg {
+        @include transform(scale(1.1));
+      }
+      img {
+        border-radius: 4px;
+        object-fit: contain;
+        max-height: 100%;
+      }
+    }
+  }
+  .attachment-broken {
+    width: 320px;
+    height: 280px;
+    background: #e2e2e2;
+    border: 1px solid $orange-generic;
+    border-radius: 4px;
+    @include centeritem;
+    flex-direction: column;
+    svg {
+      @include size(40px);
+    }
+    &__label {
+      color: $orange-generic;
+      font-size: 15px;
+      font-weight: 500;
+      margin-top: 18px;
+    }
+  }
+  .wrap-caption {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: solid 1px $black-extradark;
+    &:not(.has-editing) .caption-form,
+    &:not(.has-completed) .caption-desc,
+    &.has-editing .wrap-caption__btn {
+      display: none;
+    }
+    &__btn {
+      @include centeritem;
+      background: $blue-extralight;
+      border-radius: 4px;
+      color: $blue-default;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 11px;
+      height: 20px;
+      margin-top: 14px;
+    }
+    .caption-form {
+      &__edit {
+        border: 1px solid $border-color-grey;
+        border-radius: 4px;
+        margin: 2px 0 4px;
+      }
+      &__character {
+        color: #7c83a3;
+        font-size: 13px;
+      }
+      .field-edit {
+        border: none;
+        border-bottom: solid 1px $border-color-grey;
+        border-radius: 4px 4px 0 0;
+        height: 155px;
+        padding: 8px;
+      }
+      .footer-form {
+        padding: 4px 8px 8px;
+      }
+    }
+  }
+  @media only screen and (max-device-width: 1024px) {
+    .btn-close-menu {
+      top: 0px;
+    }
+    .slick-list {
+      max-width: calc(100% - 80px);
+    }
+    .slick-prev {
+      left: 45px;
+    }
+    .slick-next {
+      right: 45px;
+    }
+  }
+}
