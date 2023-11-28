@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { CALENDAR_VIEW } from "../../constant";
-
-import { selectTitleView } from "../../selector/toolbar";
-import { selectCalendarApi } from "../../selector/calendar";
+import { CALENDAR_VIEW } from "constant";
+import { selectTitleView } from "selector/toolbar";
+import { selectCalendarApi, selectCalendarWeekends } from "selector/calendar";
+import { toggleShowWeekends } from "actions/calendar";
 
 const ViewSelectItem = ({ view, onChangeView }) => {
   return (
@@ -14,9 +14,39 @@ const ViewSelectItem = ({ view, onChangeView }) => {
   );
 };
 
-const ChangeView = () => {
-  const dispatch = useDispatch();
+const TitleView = () => {
   const titleView = useSelector(selectTitleView);
+  return <p className="txt-ellipsis">{titleView}</p>;
+};
+
+const ToggleWeekends = () => {
+  const dispatch = useDispatch();
+  const weekends = useSelector(selectCalendarWeekends);
+  const onChange = () => {
+    dispatch(toggleShowWeekends());
+  };
+  return (
+    <div className="has-toggle">
+      <div className="items">
+        <div className="switch large mr-2">
+          <input
+            id="toggle_show_weekends"
+            className="toggle toggle-round"
+            type="checkbox"
+            checked={weekends}
+            onChange={onChange}
+          />
+          <label htmlFor="toggle_show_weekends">
+            <span className="label">Show weekends</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ChangeView = ({ changeCurDate }) => {
+  const dispatch = useDispatch();
   const calendarApi = useSelector(selectCalendarApi);
   const [isShow, setIsShow] = useState(false);
 
@@ -26,17 +56,18 @@ const ChangeView = () => {
       if (!calendarApi) return;
       const viewApi = calendarApi.view;
       const currentViewType = viewApi.type;
-      if (currentViewType !== newView) {
+      if (currentViewType !== newView.type) {
         // validate change calendar view
         calendarApi.changeView(newView.type);
         dispatch({
           type: "TOOLBAR_CHANGE_VIEW",
           payload: { view: newView },
         });
-        // change current date ?
+        // change current date
+        changeCurDate(calendarApi);
       }
     },
-    [calendarApi]
+    [calendarApi, changeCurDate]
   );
 
   return (
@@ -45,7 +76,7 @@ const ChangeView = () => {
       onClick={() => setIsShow(!isShow)}
     >
       <div className="dropbtn btn-agenda v2-btn-default --icon-r mr-0">
-        <p className="txt-ellipsis">{titleView}</p>
+        <TitleView />
         <span className="arrow"></span>
       </div>
       <div id="show_list_mode_agenda" className="v2-dropdown__menu">
@@ -59,6 +90,7 @@ const ChangeView = () => {
               />
             );
           })}
+          <ToggleWeekends />
         </ul>
       </div>
     </div>

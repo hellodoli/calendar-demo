@@ -1,6 +1,15 @@
 import React from "react";
 
-const ContentHeader = ({ eventId = "", header = "" }) => {
+const defaultOb = {};
+const defaultArr = [];
+
+const ContentHeader = ({
+  eventId = "",
+  isDraging = false,
+  timeText = "",
+  header = "",
+  emoji = defaultArr,
+}) => {
   return (
     <div
       style={{
@@ -24,10 +33,9 @@ const ContentHeader = ({ eventId = "", header = "" }) => {
           display: "none",
         }}
       ></div>
-      <div
-        className="emoji-content emoji-event"
-        style={{ marginRight: "2px" }}
-      ></div>
+      <div className="emoji-content emoji-event" style={{ marginRight: "2px" }}>
+        {emoji.join("")}
+      </div>
       <div
         style={{
           overflow: "hidden",
@@ -36,7 +44,7 @@ const ContentHeader = ({ eventId = "", header = "" }) => {
           fontWeight: 400,
         }}
       >
-        {header}
+        {isDraging ? timeText : header}
       </div>
     </div>
   );
@@ -47,8 +55,8 @@ const ContentBlock = ({ content = [] }) => {
     <div
       style={{
         flex: "1 1 0%",
-        lineHeight: "1.15", // dynamic ?
-        fontSize: "11px", // dynamic ?
+        lineHeight: "1.15",
+        fontSize: "11px",
         color: "inherit",
         paddingLeft: "1px",
         fontFamily: "Arial, Helvetica, sans-serif",
@@ -56,9 +64,15 @@ const ContentBlock = ({ content = [] }) => {
         zIndex: 1,
       }}
     >
-      {content.map((textBlock) => {
+      {content.map((textBlock, index) => {
         return (
-          <div style={{ wordBreak: "break-word", whiteSpace: "normal" }}>
+          <div
+            key={index}
+            style={{
+              wordBreak: "break-word",
+              whiteSpace: "normal",
+            }}
+          >
             {textBlock}
           </div>
         );
@@ -68,16 +82,14 @@ const ContentBlock = ({ content = [] }) => {
 };
 
 const Event = (props) => {
-  const { event } = props;
+  const { event, isDragging, timeText } = props;
   const eventId = event.id || "";
-  const extendedProps = event.extendedProps || {};
-  const colors = extendedProps.colors || {};
+  const extendedProps = event.extendedProps || defaultOb;
+  const colors = extendedProps.colors || defaultOb;
 
-  console.log({
-    ingleEvent: event,
-    extendedProps: event?.extendedProps,
-    colors,
-  });
+  if (event.id === "535143") {
+    console.log({ props });
+  }
 
   return (
     <div
@@ -86,17 +98,26 @@ const Event = (props) => {
         display: "flex",
         flexDirection: "column",
         borderRadius: "2px",
-        maxHeight: "100%",
-        height: "50px",
         width: "100%",
+        maxHeight: "100%",
         overflow: "hidden",
         boxSizing: "content-box",
+        /*height:
+          !content?.length || (content?.length === 1 && !content[0])
+            ? "100%"
+            : 50,*/
         ...(colors.background && { backgroundColor: colors.background }),
         ...(colors.text && { color: colors.text }),
         ...(colors.border && { border: `1px solid ${colors.border}` }),
       }}
     >
-      <ContentHeader header={extendedProps.tile?.header} eventId={eventId} />
+      <ContentHeader
+        eventId={eventId}
+        header={extendedProps.tile?.header}
+        emoji={extendedProps.job?.emoji}
+        isDraging={isDragging}
+        timeText={timeText}
+      />
       <ContentBlock content={extendedProps.tile?.content} />
     </div>
   );

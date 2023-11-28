@@ -7,6 +7,11 @@ export const selectView = createSelector(
   (toolbar) => toolbar.view
 );
 
+export const selectViewType = createSelector(
+  toolbarSelector,
+  (toolbar) => toolbar.view.type
+);
+
 export const selectTitleView = createSelector(
   toolbarSelector,
   (toolbar) => toolbar.view.title

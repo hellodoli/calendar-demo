@@ -1,6 +1,7 @@
+export * from "./timepicker";
+
 export const transformEvents = (inputEvents /* */) => {
   const events = inputEvents.map((event) => {
-    console.log({ event });
     const infoEvent = event?.event || {};
     return {
       ...event,
@@ -8,7 +9,7 @@ export const transformEvents = (inputEvents /* */) => {
       start: infoEvent.start,
       end: infoEvent.end,
       allDay: event.all_day || false,
-      title: event?.tile?.[0] || "",
+      title: event.tile?.header || "",
       // colors
       backgroundColor: event.color?.background || "",
       borderColor: event.color?.border || "",

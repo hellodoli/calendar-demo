@@ -291,3 +291,7 @@
     border-radius: 0;
   }
 }
+
+.react-datepicker__aria-live {
+  display: none !important;
+}

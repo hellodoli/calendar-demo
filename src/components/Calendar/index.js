@@ -1,32 +1,47 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
+import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 
-import { transformEvents } from "../../utils";
-import { datas } from "../../mock/data";
+import { transformEvents } from "utils";
+import { datas_2811 } from "mock/data";
+import { addFullCalendarApi } from "actions/calendar";
+import { selectIsShowCalendarWeekends } from "selector/calendar";
+import { initCalendarView } from "reducers";
 
 import Event from "../Event";
 import Toolbar from "../Toolbar";
+import Sidebar from "../Sidebar";
+import Watcher from "../Watcher";
+
 import "./style.scss";
 
 const Calendar = () => {
   const dispatch = useDispatch();
+  const weekends = useSelector(selectIsShowCalendarWeekends);
   const calendarRef = useRef(null);
-  const [events] = useState(transformEvents(datas));
+  const [events, setEvents] = useState(transformEvents(datas_2811));
 
   const renderEventContent = useCallback((args) => {
     const { event } = args;
-    return <Event event={event} />;
+    return <Event {...args} event={event} />;
   }, []);
 
+  const eventDrop = (info) => {
+    console.log("eventDrop", { info });
+    // setEvents();
+  };
+
+  const handleEvents = (events) => {
+    console.log("eventSets: ", { events });
+    setEvents(events);
+  };
+
   useEffect(() => {
-    dispatch({
-      type: "ADD_CALENDAR_API",
-      payload: { calendarRef },
-    });
+    dispatch(addFullCalendarApi({ calendarRef }));
   }, []);
 
   return (
@@ -36,6 +51,7 @@ const Calendar = () => {
           id="displayView"
           className="calendar-container calendar-mode-vertical display-vertical"
         >
+          <Watcher />
           <Toolbar />
           <div id="wrapper_main_calendar" className="wrapper-main-page">
             {/* id= "tooltip-add-job" */}
@@ -51,10 +67,16 @@ const Calendar = () => {
                     ref={calendarRef}
                     timeZone="UTC"
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                    weekends={weekends}
                     headerToolbar={false} // disabled header toolbar
-                    initialView="dayGridMonth"
+                    editable={true}
+                    droppable={true}
+                    dayMaxEvents={true}
+                    initialView={initCalendarView.type}
                     events={events}
                     eventContent={renderEventContent}
+                    eventDrop={eventDrop}
+                    // eventsSet={handleEvents}
                   />
                 </div>
               </div>
@@ -62,6 +84,7 @@ const Calendar = () => {
             {/* class= "tooltip" */}
           </div>
         </div>
+        <Sidebar />
       </div>
     </div>
   );

@@ -1,22 +1,27 @@
-import { useSelector } from "react-redux";
-import { selectCalendarApi } from "../../selector/calendar";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
+
+import { setCurrentDate } from "actions/calendar";
 
 import ChangeView from "./ChangeView";
+import Buttons from "./Buttons";
 
 const Toolbar = () => {
-  const calendarApi = useSelector(selectCalendarApi);
+  const dispatch = useDispatch();
 
-  const onClick = () => {
-    console.log(calendarApi);
-  };
+  const changeCurDate = useCallback((calendarApi) => {
+    if (!calendarApi) return;
+    const currentData = calendarApi.getDate();
+    dispatch(setCurrentDate(currentData));
+  }, []);
 
   return (
     <div className="calendar-header">
       <div className="left-menu flexcenter">
-        <ChangeView />
+        <ChangeView changeCurDate={changeCurDate} />
       </div>
       <div className="center-menu relative">
-        <button onClick={onClick}>Click me to show calendarApi</button>
+        <Buttons changeCurDate={changeCurDate} />
       </div>
       <div className="right-menu relative flexcenter">
         <div className="wrap-action relative">Right</div>
