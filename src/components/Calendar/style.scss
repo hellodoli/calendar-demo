@@ -2075,6 +2075,11 @@
       overflow: unset !important;
     }
   }
+
+  .fc-timegrid-slot.fc-timegrid-slot-lane,
+  .fc-timegrid-slot.fc-timegrid-slot-label {
+    height: 25px !important;
+  }
 }
 // Style drag job event
 .fc-event,

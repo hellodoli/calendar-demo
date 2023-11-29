@@ -24,3 +24,13 @@ export const selectIsShowCalendarWeekends = createSelector(
   selectViewType,
   (weekends, viewType) => weekends || viewType === CALENDAR_VIEW_DAY.type
 );
+
+export const selectRangeStart = createSelector(
+  calendarSelector,
+  (calendar) => calendar.rangeStart
+);
+
+export const selectRangeEnd = createSelector(
+  calendarSelector,
+  (calendar) => calendar.rangeEnd
+);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ReactDatePicker from "react-datepicker";
 
@@ -8,33 +8,23 @@ import {
   selectCalendarApi,
   selectCalendarWeekends,
   selectCalendarCurrentDate,
+  selectRangeStart,
+  selectRangeEnd,
 } from "selector/calendar";
-import { setCurrentDate } from "actions/calendar";
-import {
-  setLocalRangeStart,
-  setLocalRangeEnd,
-  getLocalRangeStart,
-  getLocalRangeEnd,
-} from "utils/local";
-import {
-  CALENDAR_VIEW_DAY,
-  CALENDAR_VIEW_MONTH,
-  CALENDAR_VIEW_WEEK,
-} from "constant";
+import { setCurrentDate, changeCalendarRange } from "actions/calendar";
+import { setLocalRangeStart, setLocalRangeEnd } from "utils/local";
 
 import PrevIcon from "components/Toolbar/Icons/Prev";
 import NextIcon from "components/Toolbar/Icons/Next";
 
-const DatePicker = () => {
+const DatePicker = ({ monthsShown = 1 }) => {
   const dispatch = useDispatch();
   const calendarApi = useSelector(selectCalendarApi);
   const viewType = useSelector(selectViewType);
   const weekends = useSelector(selectCalendarWeekends);
   const curDate = useSelector(selectCalendarCurrentDate);
-  const [startDate, setStartDate] = useState(
-    () => getLocalRangeStart() || null
-  );
-  const [endDate, setEndDate] = useState(() => getLocalRangeEnd() || null);
+  const startDate = useSelector(selectRangeStart);
+  const endDate = useSelector(selectRangeEnd);
 
   const goToDate = useCallback(
     (date, cb) => {
@@ -52,8 +42,12 @@ const DatePicker = () => {
       const curDate = start;
       goToDate(curDate, (viewApi) => {
         const range = getStartEndSelectRange(viewApi);
-        setStartDate(range.start);
-        setEndDate(range.end);
+        dispatch(
+          changeCalendarRange({
+            start: range.start,
+            end: range.end,
+          })
+        );
       });
     },
     [calendarApi, goToDate]
@@ -62,25 +56,15 @@ const DatePicker = () => {
   const onChange = useCallback(
     (dates) => {
       const [start, end] = dates;
-      switch (viewType) {
-        case CALENDAR_VIEW_DAY.type: {
-          // maybe do something extra
-          selectRangePicker(start, end);
-          break;
-        }
-        case CALENDAR_VIEW_WEEK.type:
-        case CALENDAR_VIEW_MONTH.type: {
-          selectRangePicker(start, end);
-          break;
-        }
-        default:
-          break;
-      }
+      selectRangePicker(start, end);
     },
-    [selectRangePicker, viewType]
+    [selectRangePicker]
   );
 
   const renderCustomHeader = (props) => {
+    if (monthsShown === 2) {
+      return renderCustomHeader2Months(props);
+    }
     const {
       monthDate,
       decreaseMonth,
@@ -118,6 +102,75 @@ const DatePicker = () => {
     );
   };
 
+  const renderCustomHeader2Months = (props) => {
+    const {
+      monthDate,
+      decreaseMonth,
+      prevMonthButtonDisabled,
+      increaseMonth,
+      nextMonthButtonDisabled,
+      decreaseYear,
+      increaseYear,
+      prevYearButtonDisabled,
+      nextYearButtonDisabled,
+      customHeaderCount,
+      /*date,
+      changeYear,
+      changeMonth,*/
+    } = props;
+
+    if (customHeaderCount === 1) {
+      return (
+        <div className="datepicker-header-custom --just-label">
+          <p className="label-month">{displayPickerTitle(monthDate, "MMM")}</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="datepicker-header-custom">
+        <div className="datepicker-header-custom__option --month">
+          <div
+            className="btn-navigation --previous v2-btn-default --icon-sm --transparent"
+            onClick={decreaseMonth}
+            disabled={prevMonthButtonDisabled}
+          >
+            <PrevIcon />
+          </div>
+          <div className="v2-dropdown datepicker-selected">
+            <div className="items">{displayPickerTitle(monthDate, "MMM")}</div>
+          </div>
+          <div
+            className="btn-navigation --next v2-btn-default --icon-sm --transparent"
+            onClick={increaseMonth}
+            disabled={nextMonthButtonDisabled}
+          >
+            <NextIcon />
+          </div>
+        </div>
+        <div className="datepicker-header-custom__option --year">
+          <div
+            className="btn-navigation --previous v2-btn-default --icon-sm --transparent"
+            onClick={decreaseYear}
+            disabled={prevYearButtonDisabled}
+          >
+            <PrevIcon />
+          </div>
+          <div className="v2-dropdown datepicker-selected">
+            <div className="items">{displayPickerTitle(monthDate, "YYYY")}</div>
+          </div>
+          <div
+            className="btn-navigation --next v2-btn-default --icon-sm --transparent"
+            onClick={increaseYear}
+            disabled={nextYearButtonDisabled}
+          >
+            <NextIcon />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   useEffect(() => {
     setLocalRangeStart(startDate);
   }, [startDate]);
@@ -137,6 +190,7 @@ const DatePicker = () => {
       startDate={startDate}
       endDate={endDate}
       renderCustomHeader={renderCustomHeader}
+      monthsShown={monthsShown}
       disabledKeyboardNavigation
       selectsRange
       inline
@@ -144,4 +198,4 @@ const DatePicker = () => {
   );
 };
 
-export default DatePicker;
+export default memo(DatePicker);

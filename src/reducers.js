@@ -4,8 +4,14 @@ import {
   CALENDAR_ADD_FULLCALENDAR_API,
   CALENDAR_TOGGLE_SHOW_WEEKENDS,
   TOOLBAR_CHANGE_VIEW,
+  CHANGE_CALENDAR_RANGE,
 } from "actions/calendar";
-import { getLocalCurrentDate, getLocalCalendarView } from "utils/local";
+import {
+  getLocalCurrentDate,
+  getLocalCalendarView,
+  getLocalRangeStart,
+  getLocalRangeEnd,
+} from "utils/local";
 import { DEFAULT_CALENDAR_VIEW } from "constant";
 
 const initCalendarView = getLocalCalendarView() || DEFAULT_CALENDAR_VIEW;
@@ -18,6 +24,8 @@ const calendarInitialState = {
   calendarApi: null,
   currentDate: getLocalCurrentDate() || new Date(),
   weekends: true,
+  rangeStart: getLocalRangeStart() || null,
+  rangeEnd: getLocalRangeEnd() || null,
 };
 
 function toolbar(state = toolbarInitialState, action) {
@@ -53,6 +61,14 @@ function calendar(state = calendarInitialState, action) {
       return {
         ...state,
         weekends: !state.weekends,
+      };
+    }
+    case CHANGE_CALENDAR_RANGE: {
+      const { start, end } = action.payload;
+      return {
+        ...state,
+        rangeStart: start,
+        rangeEnd: end,
       };
     }
     default:

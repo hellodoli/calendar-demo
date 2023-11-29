@@ -15,4 +15,10 @@ export const toggleShowWeekends = () => ({
   type: CALENDAR_TOGGLE_SHOW_WEEKENDS,
 });
 
+export const CHANGE_CALENDAR_RANGE = "CHANGE_CALENDAR_RANGE";
+export const changeCalendarRange = (payload) => ({
+  type: CHANGE_CALENDAR_RANGE,
+  payload,
+});
+
 export const TOOLBAR_CHANGE_VIEW = "TOOLBAR_CHANGE_VIEW";

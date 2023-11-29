@@ -1,4 +1,5 @@
 import React from "react";
+import { getDiffDateTime } from "utils/timepicker";
 
 const defaultOb = {};
 const defaultArr = [];
@@ -69,8 +70,8 @@ const ContentBlock = ({ content = [] }) => {
           <div
             key={index}
             style={{
-              wordBreak: "break-word",
               whiteSpace: "normal",
+              wordBreak: "break-word",
             }}
           >
             {textBlock}
@@ -86,10 +87,26 @@ const Event = (props) => {
   const eventId = event.id || "";
   const extendedProps = event.extendedProps || defaultOb;
   const colors = extendedProps.colors || defaultOb;
+  const minuteDuration =
+    event.start && event.end
+      ? getDiffDateTime(event.end, event.start, "minute")
+      : 60;
+  const hourDuration = minuteDuration / 60;
 
-  if (event.id === "535143") {
-    console.log({ props });
-  }
+  const getMaxHeightTimeText = () => {
+    const base = 50;
+    let maxHeight = base;
+
+    maxHeight = base * hourDuration * 2;
+
+    if (maxHeight % base !== 0) {
+      const round = Math.ceil(maxHeight / 15);
+      maxHeight = base * round;
+    }
+
+    if (maxHeight < base) maxHeight = base;
+    return maxHeight;
+  };
 
   return (
     <div
@@ -106,6 +123,7 @@ const Event = (props) => {
           !content?.length || (content?.length === 1 && !content[0])
             ? "100%"
             : 50,*/
+        height: `${getMaxHeightTimeText()}px`,
         ...(colors.background && { backgroundColor: colors.background }),
         ...(colors.text && { color: colors.text }),
         ...(colors.border && { border: `1px solid ${colors.border}` }),
