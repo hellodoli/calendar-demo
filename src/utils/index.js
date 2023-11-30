@@ -38,7 +38,6 @@ const get12Hour = (hour /* 0 -> 23 */) => {
 };
 
 export const getChangeTileHeader = (str) => {
-  console.log({ str });
   const time = str?.split("T")?.[1] || [];
   if (!time?.length) return str;
   const extractTime = time?.split(":");
@@ -46,4 +45,26 @@ export const getChangeTileHeader = (str) => {
   const { hour: hour12, suffixEN } = get12Hour(parseInt(hour));
   const minuteString = parseInt(minute) === 0 ? "" : `:${minute}`;
   return `${hour12}${minuteString}${suffixEN}`;
+};
+
+export const isEventOverDiv = function (x, y) {
+  const external_events = document.querySelector("#external-events-list");
+  const rect = external_events.getBoundingClientRect();
+  const offset = {
+    top: rect.top + window.scrollY,
+    left: rect.left + window.scrollX,
+  };
+  offset.right = external_events.offsetWidth + offset.left;
+  offset.bottom = external_events.offsetHeight + offset.top;
+
+  // Compare
+  if (
+    x >= offset.left &&
+    y >= offset.top &&
+    x <= offset.right &&
+    y <= offset.bottom
+  ) {
+    return true;
+  }
+  return false;
 };

@@ -5,6 +5,8 @@ import {
   CALENDAR_TOGGLE_SHOW_WEEKENDS,
   TOOLBAR_CHANGE_VIEW,
   CHANGE_CALENDAR_RANGE,
+  CALENDAR_ADD_WORK_ITEM,
+  CALENDAR_REMOVE_WORK_ITEM,
 } from "actions/calendar";
 import {
   getLocalCurrentDate,
@@ -13,6 +15,7 @@ import {
   getLocalRangeEnd,
 } from "utils/local";
 import { DEFAULT_CALENDAR_VIEW } from "constant";
+import { datas_works } from "mock/data";
 
 const initCalendarView = getLocalCalendarView() || DEFAULT_CALENDAR_VIEW;
 
@@ -26,6 +29,8 @@ const calendarInitialState = {
   weekends: true,
   rangeStart: getLocalRangeStart() || null,
   rangeEnd: getLocalRangeEnd() || null,
+  works: datas_works,
+  dragItem: null,
 };
 
 function toolbar(state = toolbarInitialState, action) {
@@ -69,6 +74,21 @@ function calendar(state = calendarInitialState, action) {
         ...state,
         rangeStart: start,
         rangeEnd: end,
+      };
+    }
+
+    case CALENDAR_REMOVE_WORK_ITEM: {
+      const eventId = action.payload;
+      const works = state.works.filter((work) => work.event.id !== eventId);
+      return {
+        ...state,
+        works,
+      };
+    }
+    case CALENDAR_ADD_WORK_ITEM: {
+      return {
+        ...state,
+        works: [...state.works, action.payload],
       };
     }
     default:

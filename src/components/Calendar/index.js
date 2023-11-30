@@ -4,12 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
+import interactionPlugin from "@fullcalendar/interaction";
 
 import { CALENDAR_CUSTOM_VIEWS } from "constant";
-import { transformEvents, getChangeTileHeader } from "utils";
+import { transformEvents, getChangeTileHeader, isEventOverDiv } from "utils";
 import { datas_2811 } from "mock/data";
-import { addFullCalendarApi } from "actions/calendar";
+import {
+  addFullCalendarApi,
+  addWorkItem,
+  removeWorkItem,
+} from "actions/calendar";
 import { selectIsShowCalendarWeekends } from "selector/calendar";
 import { initCalendarView } from "reducers";
 
@@ -45,10 +49,43 @@ const Calendar = () => {
   };
 
   const eventDragStop = (info) => {
-    console.log("Drag stop");
+    const { event, jsEvent } = info;
+    console.log("Drag stop: ", info);
+    if (isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
+      let calendarApi = calendarRef.current?.getApi();
+      console.log({ calendarApi });
+      if (calendarApi) {
+        const eventFound = calendarApi.getEventById(event.id);
+        if (eventFound) {
+          event.remove();
+          const {
+            _context,
+            _def,
+            _instance,
+            end,
+            endStr,
+            start,
+            startStr,
+            title,
+            id,
+            extendedProps,
+            allDay,
+            ...rest
+          } = event;
+          const newEvent = {
+            ...rest,
+            ...extendedProps,
+            color: extendedProps.colors,
+          };
+          console.log({ newEvent });
+          dispatch(addWorkItem(newEvent));
+        }
+      }
+    }
   };
 
   const eventDrop = (info) => {
+    console.log("eventDrop: ", { info });
     let calendarApi = calendarRef.current?.getApi();
     if (calendarApi) {
       const { event: eventChange } = info;
@@ -60,11 +97,22 @@ const Calendar = () => {
       let titleStart = `${getChangeTileHeader(startStr)}`;
       let titleEnd = `${getChangeTileHeader(endStr)}`;
       const header = `${titleStart}- ${titleEnd}`;
+      console.log({ header });
       event.setExtendedProp("tile", { ...oldTile, header });
     }
     cache.current.dragEventId = "";
     cache.current.isDrag = false;
     cache.current.dragEvent = {};
+  };
+
+  const drop = (info) => {
+    console.log("drop:", { info });
+    // remove the element from the "Draggable Events" list
+    dispatch(removeWorkItem(info.draggedEl?.dataset?.id));
+    /*const parentNode = info.draggedEl?.parentNode;
+    if (parentNode) {
+      parentNode.removeChild(info.draggedEl);
+    }*/
   };
 
   const handleEvents = (events) => {
@@ -87,40 +135,15 @@ const Calendar = () => {
     }
   };
 
+  const eventReceive = (info) => {
+    console.log("eventReceive: ", { info });
+  };
+
   useEffect(() => {
     dispatch(addFullCalendarApi({ calendarRef }));
   }, []);
 
-  useEffect(() => {
-    const containerEl = document.querySelector("#external-events-work-pool");
-    new Draggable(containerEl, {
-      itemSelector: ".fc-event",
-      eventData: function (eventEl) {
-        const data = eventEl.dataset?.info;
-        console.log({ data });
-        if (!data) return {};
-        const event = JSON.parse(data);
-        const infoEvent = event.event;
-        const colors = event.color;
-
-        return {
-          ...event,
-          id: infoEvent.id,
-          //start: infoEvent.start,
-          //end: infoEvent.end,
-          //allDay: event.all_day || false,
-          title: event.tile?.header || "",
-          // colors
-          backgroundColor: colors?.background || "",
-          borderColor: colors?.border || "",
-          textColor: colors?.text || "",
-          // extend
-          colors: event?.color || event?.colors || {},
-          tile: event.tile,
-        };
-      },
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div id="main_page_full_calendar" className="container-wrap calendar">
@@ -149,6 +172,7 @@ const Calendar = () => {
                     headerToolbar={false} // disabled header toolbar
                     editable={true}
                     droppable={true}
+                    dragRevertDuration={0}
                     initialView={initCalendarView.type}
                     views={CALENDAR_CUSTOM_VIEWS}
                     events={events}
@@ -156,10 +180,16 @@ const Calendar = () => {
                     eventDragStart={eventDragStart}
                     eventDragStop={eventDragStop}
                     eventDrop={eventDrop}
+                    drop={drop}
                     eventsSet={handleEvents}
                     slotDuration="00:15:00"
                     slotEventOverlap={true}
-                    // slotLabelInterval={120}
+                    eventReceive={eventReceive}
+                    /* you can update a remote database when these fire:
+                    eventAdd={function(){}}
+                    eventChange={function(){}}
+                    eventRemove={function(){}}
+                    */
                   />
                 </div>
               </div>

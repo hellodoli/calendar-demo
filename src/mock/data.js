@@ -22398,7 +22398,7 @@ export const datas_works = [
     draft_invoice: 0,
     active_job: 1,
     circle_notify: 0,
-    editable: false,
+    editable: true,
     location: {
       id: "4061",
       name: "1250 Waters Place",
@@ -22579,7 +22579,7 @@ export const datas_works = [
     },
     type: "job",
   },
-  {
+  /*{
     tile: {
       header: "Sat Sep 17th, 2022 7:30 - 8pm",
       content: [
@@ -23991,5 +23991,5 @@ export const datas_works = [
       note: "",
     },
     type: "job",
-  },
+  },*/
 ];

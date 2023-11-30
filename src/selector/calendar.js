@@ -34,3 +34,8 @@ export const selectRangeEnd = createSelector(
   calendarSelector,
   (calendar) => calendar.rangeEnd
 );
+
+export const selectWorks = createSelector(
+  calendarSelector,
+  (calendar) => calendar.works
+);

@@ -21,4 +21,16 @@ export const changeCalendarRange = (payload) => ({
   payload,
 });
 
+export const CALENDAR_ADD_WORK_ITEM = "CALENDAR_ADD_WORK_ITEM";
+export const addWorkItem = (payload) => ({
+  type: CALENDAR_ADD_WORK_ITEM,
+  payload,
+});
+
+export const CALENDAR_REMOVE_WORK_ITEM = "CALENDAR_REMOVE_WORK_ITEM";
+export const removeWorkItem = (payload) => ({
+  type: CALENDAR_REMOVE_WORK_ITEM,
+  payload,
+});
+
 export const TOOLBAR_CHANGE_VIEW = "TOOLBAR_CHANGE_VIEW";

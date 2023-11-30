@@ -44,6 +44,7 @@ const ContentHeader = ({
           padding: "1px 0px",
           fontWeight: 400,
         }}
+        className="dragableItem"
       >
         {isDraging ? timeText : header}
       </div>
@@ -92,6 +93,7 @@ const Event = (props) => {
       ? getDiffDateTime(event.end, event.start, "minute")
       : 60;
   const hourDuration = minuteDuration / 60;
+  const isDragItem = extendedProps.isDragItem;
 
   const getMaxHeightTimeText = () => {
     const base = 50;
